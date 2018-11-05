@@ -4,7 +4,7 @@
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
           <h1 class="has-text-centered is-size-3 has-text-weight-bold">Admin Login</h1>
-          <form @submit.prevent="onSubmit">
+          <form @submit.prevent="onSignIn">
             <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left">
@@ -48,6 +48,12 @@
               :disabled="errors.any() || !email || !password"
               type="submit">Login</button>
           </form>
+          <hr v-if="errorMessage">
+          <div class="message is-danger" v-if="errorMessage">
+            <div class="message-body">
+              {{ errorMessage }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,17 +64,18 @@
 export default {
   data() {
     return {
-      email: '',
+      email: null,
       password: null,
     };
   },
   methods: {
-    onSubmit() {
-      const formData = {
-        email: this.email,
-        password: this.password,
-      };
-      console.log(formData);
+    onSignIn() {
+      this.$store.dispatch('signAdminIn', { email: this.email, password: this.password });
+    },
+  },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage;
     },
   },
 };

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
-          <h1>{{ title }}</h1>
+          <h1 class="has-text-centered is-size-3 has-text-weight-bold">{{ title }}</h1>
         </div>
       </div>
     </div>
