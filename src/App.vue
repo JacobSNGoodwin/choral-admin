@@ -12,11 +12,7 @@
         </div>
       </div>
     </nav>
-    <section class="section">
-      <div class="container">
-        <router-view></router-view>
-      </div>
-    </section>
+    <router-view></router-view>
   </div>
 </template>
 
