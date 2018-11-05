@@ -14,7 +14,7 @@
                   v-model="email"
                   type="email"
                   data-vv-delay="1000"
-                  v-validate="'required|email'"
+                  v-validate="'email'"
                   required
                   placeholder="Email Address">
                 <span class="icon is-small is-left">
@@ -33,7 +33,7 @@
                   name="password"
                   v-model="password"
                   type="password"
-                  v-validate="'required|min:6'"
+                  v-validate="'min:6'"
                   required
                   placeholder="Password">
                 <span class="icon is-small is-left">
@@ -44,7 +44,9 @@
                   class="help is-danger">{{ errors.first('password') }}</p>
               </div>
             </div>
-            <button class="button is-info" :disabled="errors.any()" type="submit">Login</button>
+            <button class="button is-info"
+              :disabled="errors.any() || !email || !password"
+              type="submit">Login</button>
           </form>
         </div>
       </div>
