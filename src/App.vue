@@ -7,9 +7,6 @@
         <!-- navbar items, navbar burger... -->
       </div>
       <div class="navbar-menu">
-        <div class="navbar-start">
-          <router-link to="/" class="navbar-item">Home</router-link>
-        </div>
       </div>
     </nav>
     <router-view></router-view>
