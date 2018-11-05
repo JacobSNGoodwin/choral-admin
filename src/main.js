@@ -3,7 +3,7 @@ import VeeValidate from 'vee-validate';
 
 // Import font-awesome
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
 
 import App from './App.vue';
 import router from './router';
@@ -13,7 +13,7 @@ import store from './store';
 import './assets/sass/main.scss';
 
 // Configure font awesome
-library.add(faEnvelope);
+library.add(faEnvelope, faKey);
 dom.watch(); // Don't know where this is documented, but it gets it working!
 
 
