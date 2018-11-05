@@ -5,9 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    admin: false,
   },
   mutations: {
   },
   actions: {
+  },
+  getters: {
+    admin(state) {
+      return state.admin;
+    },
   },
 });
