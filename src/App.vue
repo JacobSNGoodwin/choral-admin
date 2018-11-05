@@ -17,12 +17,7 @@
 </template>
 
 <script>
-import Login from '@/views/Login.vue';
-
 export default {
-  components: {
-    'app-login': Login,
-  },
   data() {
     return {
       title: 'In the app!',
