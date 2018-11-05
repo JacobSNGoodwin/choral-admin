@@ -1,12 +1,23 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <h1>{{ title }}</h1>
-    </div>
-    <div class="container">
-      <app-login></app-login>
-    </div>
-  </section>
+  <div>
+    <nav class="navbar is-fixed-top is-warning is-bold"
+      role="navigation"
+      aria-label="main navigation">
+      <div class="navbar-brand">
+        <!-- navbar items, navbar burger... -->
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">Performances</a>
+        </div>
+      </div>
+    </nav>
+    <section class="section">
+      <div class="container">
+        <router-view></router-view>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
