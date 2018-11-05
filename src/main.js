@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VeeValidate from 'vee-validate';
 
 // Import font-awesome
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
@@ -15,6 +16,8 @@ import './assets/sass/main.scss';
 library.add(faEnvelope);
 dom.watch(); // Don't know where this is documented, but it gets it working!
 
+
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 new Vue({
