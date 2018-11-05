@@ -34,9 +34,9 @@ export default new Vuex.Store({
         // make sure user is an admin
         // throws error if uid is not a document in adminsCollection
         .then(user => adminsRef.doc(user.uid).get())
-        .then((userDoc) => {
+        .then((adminDoc) => {
           // document id will be the authorized user's id
-          commit('setAdmin', userDoc.id);
+          commit('setAdmin', adminDoc.id);
           commit('setLoading', false);
           router.push('/');
         })
@@ -45,6 +45,9 @@ export default new Vuex.Store({
           commit('setError', error.message);
           commit('setLoading', false);
         });
+    },
+    autoSignIn({ commit }, payload) {
+      commit('setAdmin', payload);
     },
   },
   getters: {
