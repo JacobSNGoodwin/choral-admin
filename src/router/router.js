@@ -3,6 +3,8 @@ import Router from 'vue-router';
 
 import AdminPanel from '@/views/AdminPanel.vue';
 import Login from '@/views/Login.vue';
+import Admins from '@/views/Admins.vue';
+
 import AdminAuthGuard from './admin-auth-guard';
 
 Vue.use(Router);
@@ -19,6 +21,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/manage/admins',
+      name: 'admins',
+      component: Admins,
     },
   ],
 });
