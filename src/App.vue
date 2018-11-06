@@ -7,6 +7,11 @@
         <!-- navbar items, navbar burger... -->
       </div>
       <div class="navbar-menu">
+        <div class="navbar-end" v-if="isLoggedInAdmin">
+          <div class="navbar-item">
+            <button @click="onSignOut" class="button is-secondary">Sign Out</button>
+          </div>
+        </div>
       </div>
     </nav>
     <router-view></router-view>
@@ -15,10 +20,15 @@
 
 <script>
 export default {
-  data() {
-    return {
-      title: 'In the app!',
-    };
+  methods: {
+    onSignOut() {
+      this.$store.dispatch('signOut');
+    },
+  },
+  computed: {
+    isLoggedInAdmin() {
+      return this.$store.getters.admin;
+    },
   },
 };
 </script>

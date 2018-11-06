@@ -46,8 +46,20 @@ export default new Vuex.Store({
           commit('setLoading', false);
         });
     },
-    autoSignIn({ commit }, payload) {
-      commit('setAdmin', payload);
+    signOut({ commit }) {
+      commit('setLoading', true);
+      commit('setError', null);
+      authRef.signOut()
+        .then(() => {
+          commit('setAdmin', null);
+          commit('setLoading', false);
+          router.push('/login');
+        })
+        .catch((error) => {
+          commit('setError', error.message);
+          commit('setLoading', false);
+          router.push('/login');
+        });
     },
   },
   getters: {
@@ -56,6 +68,9 @@ export default new Vuex.Store({
     },
     errorMessage(state) {
       return state.error;
+    },
+    loading(state) {
+      return state.loading;
     },
   },
 });
