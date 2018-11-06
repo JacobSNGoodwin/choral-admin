@@ -5,17 +5,16 @@ import AdminPanel from '@/views/AdminPanel.vue';
 import Login from '@/views/Login.vue';
 import Admins from '@/views/Admins.vue';
 
-import AdminAuthGuard from './admin-auth-guard';
+import adminAuthGuard from './admin-auth-guard';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'admin-panel',
       component: AdminPanel,
-      beforeEnter: AdminAuthGuard,
     },
     {
       path: '/login',
@@ -29,3 +28,7 @@ export default new Router({
     },
   ],
 });
+
+router.beforeEach(adminAuthGuard);
+
+export default router;
