@@ -3,7 +3,7 @@
     <div class="container">
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
-          <h1 class="has-text-centered title is-3 has-text-weight-bold">Admin Panel</h1>
+          <h1 class="has-text-centered title is-3 has-text-weight-bold">Admin Dashboard</h1>
         </div>
       </div>
       <div class="columns is-mobile is-centered">
