@@ -16,5 +16,8 @@ export default {
       return this.$store.getters.adminList;
     },
   },
+  created() {
+    this.$store.dispatch('loadAdmins');
+  },
 };
 </script>
