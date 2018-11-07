@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 import AdminPanel from '@/views/AdminPanel.vue';
 import Login from '@/views/Login.vue';
-import Admins from '@/views/Admins.vue';
+import ManageAdmins from '@/views/ManageAdmins.vue';
 
 import adminAuthGuard from './admin-auth-guard';
 
@@ -23,8 +23,8 @@ const router = new Router({
     },
     {
       path: '/manage/admins',
-      name: 'admins',
-      component: Admins,
+      name: 'manageAdmins',
+      component: ManageAdmins,
     },
   ],
 });
