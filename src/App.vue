@@ -43,3 +43,9 @@ export default {
   },
 };
 </script>
+
+<style>
+  .navbar-burger {
+    display: block;
+  }
+</style>
