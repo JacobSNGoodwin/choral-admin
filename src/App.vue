@@ -19,7 +19,10 @@
 </template>
 
 <script>
+import routeLinks from '@/mixins/routeLinks';
+
 export default {
+  mixins: [routeLinks],
   methods: {
     onSignOut() {
       this.$store.dispatch('signOut');

@@ -10,10 +10,10 @@
         <div class="column is-three-fifths-tablet">
           <div class="buttons">
             <router-link
-            v-for="panel in panels"
-            :key="panel.link"
-            :class="['button is-large is-fullwidth', panel.style]"
-            :to="panel.link">{{ panel.title }}</router-link>
+            v-for="routeLink in routeLinks"
+            :key="routeLink.path"
+            :class="['button is-large is-fullwidth', routeLink.linkStyle]"
+            :to="routeLink.path">{{ routeLink.linkLabel }}</router-link>
           </div>
         </div>
       </div>
@@ -22,27 +22,9 @@
 </template>
 
 <script>
+import routeLinks from '@/mixins/routeLinks';
+
 export default {
-  data() {
-    return {
-      panels: [
-        {
-          title: 'Manage Admins',
-          link: '/manage/admins',
-          style: 'is-primary',
-        },
-        {
-          title: 'Manage Performances',
-          link: '/manage/performances',
-          style: 'is-link',
-        },
-        {
-          title: 'Manage Auditions',
-          link: '/manage/auditions',
-          style: 'is-info',
-        },
-      ],
-    };
-  },
+  mixins: [routeLinks],
 };
 </script>

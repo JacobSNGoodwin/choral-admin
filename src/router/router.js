@@ -30,18 +30,21 @@ const router = new Router({
       name: 'manageAdmins',
       component: ManageAdmins,
       linkLabel: 'Manage Admins',
+      linkStyle: 'is-primary',
     },
     {
       path: '/manage/performances',
       name: 'managePerformances',
       component: ManagePerformances,
       linkLabel: 'Manage Performances',
+      linkStyle: 'is-link',
     },
     {
       path: '/manage/Auditions',
       name: 'manageAuditions',
       component: ManageAuditions,
       linkLabel: 'Manage Auditions',
+      linkStyle: 'is-info',
     },
   ],
 });
