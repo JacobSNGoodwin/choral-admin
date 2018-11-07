@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import AdminPanel from '@/views/AdminPanel.vue';
+import EmailVerification from '@/views/EmailVerification.vue';
 import Login from '@/views/Login.vue';
 import ManageAdmins from '@/views/ManageAdmins.vue';
 import ManagePerformances from '@/views/ManagePerformances.vue';
@@ -19,6 +20,11 @@ const router = new Router({
       path: '/',
       name: 'admin-panel',
       component: AdminPanel,
+    },
+    {
+      path: '/emailverification',
+      name: 'emailVerification',
+      component: EmailVerification,
     },
     {
       path: '/login',
