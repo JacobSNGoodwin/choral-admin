@@ -5,18 +5,22 @@ export default {
     adminList: [],
   },
   mutations: {
-
+    setAdminList(state, payload) {
+      state.adminList = payload;
+    },
   },
   actions: {
-    loadAdmins({ commmit }) {
+    loadAdmins({ commit }) {
+      const adminList = [];
       adminsRef.get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            console.log(doc.id, ' => ', doc.data());
+            adminList.push(doc.id);
           });
+          commit('setAdminList', adminList);
         })
         .catch((error) => {
-          commmit('setError', error.message);
+          commit('setError', error.message);
         });
     },
   },
