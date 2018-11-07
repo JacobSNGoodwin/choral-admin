@@ -23,7 +23,8 @@
       <div
         :class="['navbar-menu', navActive ? 'is-active' : '']"
         id="navbar-burger-menu"
-        @click="navActive = false">
+        @click="navActive = false"
+        v-if="isLoggedInAdmin">
         <div class="navbar-start">
           <router-link class="navbar-item" to="/">Home</router-link>
           <div class="navbar-item has-dropdown is-hoverable">
