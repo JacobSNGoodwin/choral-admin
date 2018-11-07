@@ -1,10 +1,18 @@
 <template>
   <div>
-    <nav class="navbar is-fixed-top is-warning is-bold"
+    <nav class="navbar is-fixed-top is-link"
       role="navigation"
       aria-label="main navigation">
       <div class="navbar-brand">
-        <!-- navbar items, navbar burger... -->
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="@/assets/beehive.png" alt="Choral Society" height="28">
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
       <div class="navbar-menu">
         <div class="navbar-end" v-if="isLoggedInAdmin">
