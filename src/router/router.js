@@ -4,7 +4,8 @@ import Router from 'vue-router';
 import AdminDashboard from '@/views/AdminDashboard.vue';
 import EmailVerification from '@/views/EmailVerification.vue';
 import Login from '@/views/Login.vue';
-import ManageAdmins from '@/views/ManageAdmins.vue';
+import ManageAdmins from '@/views/Admins/ManageAdmins.vue';
+import CreateAdmin from '@/views/Admins/CreateAdmin.vue';
 import ManagePerformances from '@/views/ManagePerformances.vue';
 import ManageAuditions from '@/views/ManageAuditions.vue';
 
@@ -37,6 +38,11 @@ const router = new Router({
       component: ManageAdmins,
       linkLabel: 'Admins',
       linkStyle: 'is-primary',
+    },
+    {
+      path: '/manage/admins/create',
+      name: 'createAdmin',
+      component: CreateAdmin,
     },
     {
       path: '/manage/performances',
