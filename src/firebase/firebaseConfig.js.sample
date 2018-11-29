@@ -1,0 +1,7 @@
+export default {
+  apiKey: 'yourkeyhere',
+  authDomain: 'yourfirebase.domain.auth',
+  databaseURL: 'https://yourdomain.firebaseio.com',
+  projectId: 'firebase-project-id',
+  storageBucket: 'bucket',
+};
