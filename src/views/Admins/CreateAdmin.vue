@@ -6,6 +6,42 @@
           <h1 class="title has-text-centered has-text-weight-bold">Create New Admin</h1>
           <form @submit.prevent="onCreateAdmin">
             <div class="field">
+              <label class="label">Name</label>
+              <div class="control has-icons-left">
+                <input
+                  :class="{'input': true, 'is-danger': errors.has('name') }"
+                  name="name"
+                  v-model="name"
+                  data-vv-delay="1000"
+                  v-validate="'required|min:2'"
+                  placeholder="Full Name">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <p
+                  v-if="errors.has('name')"
+                  class="help is-danger">{{ errors.first('name') }}</p>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Role</label>
+              <div class="control has-icons-left">
+                <input
+                  :class="{'input': true, 'is-danger': errors.has('role') }"
+                  name="role"
+                  v-model="role"
+                  data-vv-delay="1000"
+                  v-validate="'required|min:2'"
+                  placeholder="Role">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user-tie"></i>
+                </span>
+                <p
+                  v-if="errors.has('role')"
+                  class="help is-danger">{{ errors.first('role') }}</p>
+              </div>
+            </div>
+            <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left">
                 <input
@@ -53,10 +89,14 @@
                   v-model="confirmPassword"
                   type="password"
                   v-validate="'required|confirmed:password'"
-                  data-vv-as="password"
+                  data-vv-as="password confirmation"
                   placeholder="Confirm Password">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-key"></i>
+                <span
+                  v-if="!errors.has('confirmPassword')
+                    && fields.confirmPassword
+                    && fields.confirmPassword.dirty"
+                  class="icon is-small is-left has-text-success">
+                  <i class="fas fa-check"></i>
                 </span>
                 <p
                   v-if="errors.has('confirmPassword')"
@@ -77,6 +117,8 @@
 export default {
   data() {
     return {
+      name: null,
+      role: null,
       email: null,
       password: null,
       confirmPassword: null,
@@ -99,3 +141,4 @@ export default {
   },
 };
 </script>
+
