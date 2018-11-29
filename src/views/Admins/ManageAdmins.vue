@@ -12,6 +12,9 @@
           <span>New Admin</span>
         </router-link>
       </div>
+      <p
+        v-for="admin in adminList"
+        :key="admin">{{admin}}</p>
     </div>
   </section>
 </template>
