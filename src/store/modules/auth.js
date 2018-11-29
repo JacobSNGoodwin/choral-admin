@@ -32,7 +32,7 @@ export default {
           if (!user.emailVerified) {
             user.sendEmailVerification();
             router.push('/emailverification');
-            throw new Error('This email address has not been verified');
+            throw new Error('Please attempt login after you verify your email address');
           }
           return adminsRef.doc(user.uid).get();
         })
