@@ -14,6 +14,10 @@ Node & NPM.
 Give examples
 ```
 
+A firebase account. See ./firebase/firebaseConfig.js.sample file for an example file. You will also need to create an initial authenticated user in firebase.
+
+__Example will be provided in the future__
+
 ### Installing
 
 Clone the repository
@@ -78,9 +82,7 @@ For the versions available, see the [tags on this repository](https://github.com
 
 * **Abel Goodwin** - *Initial work*
 * **Jacob Goodwin** - *Initial work*
-* **CMC Website Committee** - *Concept work & Guiding Committee*
 
-See also the list of [contributors](https://github.com/abelgoodwin1988/coloradomormonchorale/graphs/contributors) who participate in this project.
 
 ## License
 
