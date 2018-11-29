@@ -10,6 +10,13 @@ export default {
     },
   },
   actions: {
+    createNewAdmin({commit}, payload) {
+      // first, create user with email and password
+      // after successful creation of user, add uid and user data to database
+      // commit mutation to add to admin list
+      // route user back to admins list
+      console.log(payload);
+    },
     loadAdmins({ commit }) {
       const adminList = [];
       adminsRef.get()

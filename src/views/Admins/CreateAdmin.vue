@@ -127,10 +127,12 @@ export default {
   methods: {
     onCreateAdmin() {
       const userData = {
+        name: this.name,
+        role: this.role,
         email: this.email,
         password: this.password,
       };
-      console.log(userData);
+      this.$store.dispatch('createNewAdmin', userData);
     },
   },
   computed: {
