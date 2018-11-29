@@ -27,7 +27,15 @@ export default {
         .then(response => response.user)
         // make sure user is an admin
         // throws error if uid is not a document in adminsCollection
-        .then(user => adminsRef.doc(user.uid).get())
+        .then((user) => {
+          // user can only be logged in if they have verified their email
+          if (!user.emailVerified) {
+            user.sendEmailVerification();
+            router.push('/emailverification');
+            throw new Error('This email address has not been verified');
+          }
+          return adminsRef.doc(user.uid).get();
+        })
         .then((adminDoc) => {
           // document id will be the authorized user's id
           commit('setAdmin', adminDoc.id);

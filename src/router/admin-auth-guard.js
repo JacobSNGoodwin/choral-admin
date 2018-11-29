@@ -12,14 +12,9 @@ export default (to, from, next) => {
   } else {
     // otherwise, reach out to firebase
     authRef.onAuthStateChanged((user) => {
-      console.log(user);
       if (!user) {
         // if no user, go to login page
         next('/login');
-      } else if (user && !user.emailVerified) {
-        // require email to be verified
-        user.sendEmailVerification();
-        next('/emailverification');
       } else {
         // determine is user is authorized
         adminsRef.doc(user.uid).get()
