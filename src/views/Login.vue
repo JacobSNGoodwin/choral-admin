@@ -1,39 +1,82 @@
 <template>
   <section class="section">
     <div class="container">
-        <h1>{{ title }}</h1>
+      <div class="columns is-mobile is-centered">
+        <div class="column is-three-fifths-tablet is-two-fifths-desktop">
+          <h1 class="has-text-centered is-size-3 has-text-weight-bold">Admin Login</h1>
+          <form @submit.prevent="onSignIn">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left">
+                <input
+                  :class="{'input': true, 'is-danger': errors.has('email') }"
+                  name="email"
+                  v-model="email"
+                  type="email"
+                  data-vv-delay="1000"
+                  v-validate="'email'"
+                  required
+                  placeholder="Email Address">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <p
+                  v-if="errors.has('email')"
+                  class="help is-danger">{{ errors.first('email') }}</p>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left">
+                <input
+                  :class="{'input': true, 'is-danger': errors.has('password') }"
+                  name="password"
+                  v-model="password"
+                  type="password"
+                  v-validate="'min:6'"
+                  required
+                  placeholder="Password">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-key"></i>
+                </span>
+                <p
+                  v-if="errors.has('password')"
+                  class="help is-danger">{{ errors.first('password') }}</p>
+              </div>
+            </div>
+            <button class="button is-info"
+              :disabled="errors.any() || !email || !password"
+              type="submit">Login</button>
+          </form>
+          <hr v-if="errorMessage">
+          <div class="message is-danger" v-if="errorMessage">
+            <div class="message-body">
+              {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import { performancesRef } from '@/firebase/firebaseInit';
-
 export default {
   data() {
     return {
-      title: 'The Admin Login Page!',
+      email: null,
+      password: null,
     };
   },
-  created() {
-    // test if we can get performances!
-    performancesRef.get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
-      });
-    }).catch((error) => {
-      console.log('Error getting documents: ', error);
-    });
-
-    // However, we should not be able to write without auth
-    performancesRef.add({
-      title: 'A performance of epic proportions!',
-    }).then((docRef) => {
-      console.log('Document written with ID: ', docRef.id);
-    }).catch((error) => {
-      console.error('Error adding document: ', error);
-    });
+  methods: {
+    onSignIn() {
+      this.$store.dispatch('signAdminIn', { email: this.email, password: this.password });
+    },
+  },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage;
+    },
   },
 };
 </script>

@@ -14,10 +14,12 @@ db.settings({
 });
 
 const performancesRef = db.collection('performances');
+const adminsRef = db.collection('admins');
 const authRef = firebase.auth();
 
 export {
   db,
   performancesRef,
+  adminsRef,
   authRef,
 };
