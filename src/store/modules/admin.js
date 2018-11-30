@@ -11,8 +11,9 @@ export default {
   },
   actions: {
     createNewAdmin({commit}, payload) {
-      // first, create user with email and password
+      // first, create user with email address
       // after successful creation of user, add uid and user data to database
+      // send password reset email to user
       // commit mutation to add to admin list
       // route user back to admins list
       console.log(payload);
