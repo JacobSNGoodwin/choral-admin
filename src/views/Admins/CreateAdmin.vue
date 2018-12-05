@@ -93,19 +93,20 @@ export default {
   },
   methods: {
     onCreateAdmin() {
-      // will not modify vuex state here, so will not dispatch vuex action
-      // first, create user with email address
-      // after successful creation of user, add uid and user data to database
       // send email authentication email
       // email will contain authentication link
-      // setCurrent user
       // password will be created in ConfirmAdmin component
+      // user will be signed in via email, and will also set a password sign in!
       // user will not be added to adminList until after confirmation
 
       const actionCodeSettings = {
         // URL you want to redirect back to. The domain for this
         // URL must be whitelisted in the Firebase Console.
-        url: `${process.env.VUE_APP_DOMAIN}/manage/admins/confirm`,
+        // Append email as query parameter so user need not reenter it
+        url: `${process.env.VUE_APP_DOMAIN}/manage/admins/confirm/` +
+          `?email=${this.email}` +
+          `&name=${this.name}` +
+          `&roll=${this.role}`,
         // This must be true.
         handleCodeInApp: true,
       };
