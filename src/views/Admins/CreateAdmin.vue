@@ -12,7 +12,7 @@
                   :class="{'input': true, 'is-danger': errors.has('name') }"
                   name="name"
                   v-model="name"
-                  data-vv-delay="1000"
+                  data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Full Name">
                 <span class="icon is-small is-left">
@@ -30,7 +30,7 @@
                   :class="{'input': true, 'is-danger': errors.has('role') }"
                   name="role"
                   v-model="role"
-                  data-vv-delay="1000"
+                  data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Role">
                 <span class="icon is-small is-left">
@@ -49,7 +49,7 @@
                   name="email"
                   v-model="email"
                   type="email"
-                  data-vv-delay="1000"
+                  data-vv-delay="500"
                   v-validate="'required|email'"
                   placeholder="Email Address">
                 <span class="icon is-small is-left">
@@ -58,49 +58,6 @@
                 <p
                   v-if="errors.has('email')"
                   class="help is-danger">{{ errors.first('email') }}</p>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Password</label>
-              <div class="control has-icons-left">
-                <input
-                  ref="password"
-                  :class="{'input': true, 'is-danger': errors.has('password') }"
-                  name="password"
-                  v-model="password"
-                  type="password"
-                  data-vv-delay="1000"
-                  v-validate="'required|min:6'"
-                  placeholder="Password">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-key"></i>
-                </span>
-                <p
-                  v-if="errors.has('password')"
-                  class="help is-danger">{{ errors.first('password') }}</p>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Confirm Password</label>
-              <div class="control has-icons-left">
-                <input
-                  :class="{'input': true, 'is-danger': errors.has('confirmPassword') }"
-                  name="confirmPassword"
-                  v-model="confirmPassword"
-                  type="password"
-                  v-validate="'required|confirmed:password'"
-                  data-vv-as="password confirmation"
-                  placeholder="Confirm Password">
-                <span
-                  v-if="!errors.has('confirmPassword')
-                    && fields.confirmPassword
-                    && fields.confirmPassword.dirty"
-                  class="icon is-small is-left has-text-success">
-                  <i class="fas fa-check"></i>
-                </span>
-                <p
-                  v-if="errors.has('confirmPassword')"
-                  class="help is-danger">{{ errors.first('confirmPassword') }}</p>
               </div>
             </div>
             <button class="button is-info"
@@ -120,8 +77,6 @@ export default {
       name: null,
       role: null,
       email: null,
-      password: null,
-      confirmPassword: null,
     };
   },
   methods: {
@@ -130,7 +85,6 @@ export default {
         name: this.name,
         role: this.role,
         email: this.email,
-        password: this.password,
       };
       this.$store.dispatch('createNewAdmin', userData);
     },
