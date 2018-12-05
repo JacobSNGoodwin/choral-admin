@@ -71,6 +71,9 @@
 </template>
 
 <script>
+// import router from '@/router/router';
+// import { authRef, adminsRef } from '@/firebase/firebaseInit';
+
 export default {
   data() {
     return {
@@ -81,12 +84,30 @@ export default {
   },
   methods: {
     onCreateAdmin() {
-      const userData = {
-        name: this.name,
-        role: this.role,
-        email: this.email,
+      // will not modify vuex state here, so will not dispatch vuex action
+      // first, create user with email address
+      // after successful creation of user, add uid and user data to database
+      // send email authentication email
+      // email will contain authentication link
+      // setCurrent user
+      // password will be created in ConfirmAdmin component
+      // user will not be added to adminList until after confirmation
+      // const userData = {
+      //   name: this.name,
+      //   role: this.role,
+      //   email: this.email,
+      //   hasPassword: false,
+      // };
+
+      const actionCodeSettings = {
+        // URL you want to redirect back to. The domain for this
+        // URL must be whitelisted in the Firebase Console.
+        url: `${process.env.VUE_APP_DOMAIN}/manage/admins/confirm`,
+        // This must be true.
+        handleCodeInApp: true,
       };
-      this.$store.dispatch('createNewAdmin', userData);
+
+      console.log(actionCodeSettings.url);
     },
   },
   computed: {
