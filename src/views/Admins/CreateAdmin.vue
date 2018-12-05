@@ -64,6 +64,14 @@
               :disabled="errors.any() || hasInvalidInput"
               type="submit">Create New Admin</button>
           </form>
+          <p
+            v-if="authError"
+            class="has-text-danger is-size-5 has-text-weight-semibold">{{authError}}
+          </p>
+          <p
+            v-if="emailSent"
+            class="has-text-success is-size-5 has-text-weight-semibold">{{emailSent}}
+          </p>
         </div>
       </div>
     </div>
@@ -71,8 +79,7 @@
 </template>
 
 <script>
-// import router from '@/router/router';
-// import { authRef, adminsRef } from '@/firebase/firebaseInit';
+import { authRef } from '@/firebase/firebaseInit';
 
 export default {
   data() {
@@ -80,6 +87,8 @@ export default {
       name: null,
       role: null,
       email: null,
+      authError: null,
+      emailSent: null,
     };
   },
   methods: {
@@ -92,12 +101,6 @@ export default {
       // setCurrent user
       // password will be created in ConfirmAdmin component
       // user will not be added to adminList until after confirmation
-      // const userData = {
-      //   name: this.name,
-      //   role: this.role,
-      //   email: this.email,
-      //   hasPassword: false,
-      // };
 
       const actionCodeSettings = {
         // URL you want to redirect back to. The domain for this
@@ -107,7 +110,14 @@ export default {
         handleCodeInApp: true,
       };
 
-      console.log(actionCodeSettings.url);
+      authRef.sendSignInLinkToEmail(this.email, actionCodeSettings)
+        .then(() => {
+          this.emailSent = `An verification login email has been successfully sent to ${this.email}`;
+        })
+        .catch((error) => {
+          this.authError = error.message;
+          console.log(error);
+        });
     },
   },
   computed: {
