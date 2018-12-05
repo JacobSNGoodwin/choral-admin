@@ -46,7 +46,7 @@ const router = new Router({
       component: CreateAdmin,
     },
     {
-      path: '/manage/admins/confirm',
+      path: '/manage/admins/confirm/*',
       name: 'confirmAdmin',
       component: ConfirmAdmin,
     },
