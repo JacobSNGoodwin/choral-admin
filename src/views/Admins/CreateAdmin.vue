@@ -106,7 +106,7 @@ export default {
         url: `${process.env.VUE_APP_DOMAIN}/manage/admins/confirm/` +
           `?email=${this.email}` +
           `&name=${this.name}` +
-          `&roll=${this.role}`,
+          `&role=${this.role}`,
         // This must be true.
         handleCodeInApp: true,
       };

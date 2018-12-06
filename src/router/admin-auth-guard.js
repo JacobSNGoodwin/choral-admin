@@ -3,7 +3,6 @@ import store from '@/store/store';
 import { authRef, adminsRef } from '@/firebase/firebaseInit';
 
 export default (to, from, next) => {
-  console.log(to);
   if (store.getters.admin) {
     // if app is already loaded, we will have admin in vuex store
     next();
@@ -11,7 +10,6 @@ export default (to, from, next) => {
     // If path is to login, allow to procede without rerunning authguard!
     next();
   } else if (to.name === 'confirmAdmin') {
-    console.log('To confirm admin page');
     // verify email link before permitting access
     if (authRef.isSignInWithEmailLink(window.location.href)) {
       next();
