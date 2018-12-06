@@ -16,10 +16,13 @@ db.settings({
 const performancesRef = db.collection('performances');
 const adminsRef = db.collection('admins');
 const authRef = firebase.auth();
+// second ref that allows us to create a new user without singning current user out
+const authRefForCreate = firebase.auth();
 
 export {
   db,
   performancesRef,
   adminsRef,
   authRef,
+  authRefForCreate,
 };
