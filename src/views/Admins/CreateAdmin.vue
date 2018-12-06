@@ -66,7 +66,7 @@
           </form>
           <p
             v-if="authError"
-            class="has-text-danger is-size-5 has-text-weight-semibold">{{authError}}
+            class="has-text-danger is-size-5 has-text-weight-semibold">{{errorMessage}}
           </p>
           <p
             v-if="emailSent"
@@ -85,7 +85,6 @@ export default {
       name: null,
       role: null,
       email: null,
-      authError: null,
     };
   },
   methods: {
@@ -119,6 +118,9 @@ export default {
     },
     emailSent() {
       return this.$store.getters.message;
+    },
+    errorMessage() {
+      return this.$store.getters.errorMessage;
     },
   },
   created() {
