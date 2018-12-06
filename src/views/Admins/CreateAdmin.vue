@@ -79,8 +79,6 @@
 </template>
 
 <script>
-import { authRef } from '@/firebase/firebaseInit';
-
 export default {
   data() {
     return {
@@ -88,17 +86,10 @@ export default {
       role: null,
       email: null,
       authError: null,
-      emailSent: null,
     };
   },
   methods: {
     onCreateAdmin() {
-      // send email authentication email
-      // email will contain authentication link
-      // password will be created in ConfirmAdmin component
-      // user will be signed in via email, and will also set a password sign in!
-      // user will not be added to adminList until after confirmation
-
       const actionCodeSettings = {
         // URL you want to redirect back to. The domain for this
         // URL must be whitelisted in the Firebase Console.
@@ -111,14 +102,14 @@ export default {
         handleCodeInApp: true,
       };
 
-      authRef.sendSignInLinkToEmail(this.email, actionCodeSettings)
-        .then(() => {
-          this.emailSent = `An verification login email has been successfully sent to ${this.email}`;
-        })
-        .catch((error) => {
-          this.authError = error.message;
-          console.log(error);
-        });
+      const newAdmin = {
+        name: this.name,
+        email: this.email,
+        role: this.role,
+        password: this.password,
+      };
+
+      this.$store.dispatch('createNewAdmin', { newAdmin, actionCodeSettings });
     },
   },
   computed: {
@@ -126,6 +117,12 @@ export default {
       // if any element is pristine, don't disable submit button
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
     },
+    emailSent() {
+      return this.$store.getters.message;
+    },
+  },
+  created() {
+    this.$store.commit('setMessage', null);
   },
 };
 </script>

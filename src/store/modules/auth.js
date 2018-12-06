@@ -1,12 +1,14 @@
 import router from '@/router/router';
-import { authRef, adminsRef } from '@/firebase/firebaseInit';
+import { authRef, authRefForCreate, adminsRef } from '@/firebase/firebaseInit';
 
 export default {
   state: {
     admin: null,
     loading: false,
     error: null,
+    message: null,
   },
+
   mutations: {
     setAdmin(state, payload) {
       state.admin = payload;
@@ -17,9 +19,69 @@ export default {
     setError(state, payload) {
       state.error = payload;
     },
+    setMessage(state, payload) {
+      state.message = payload;
+    },
   },
+
   actions: {
     createNewAdmin({ commit }, payload) {
+      /*
+      ** 1. Create a user with the given email address and a temporary password
+      ** 2. Send user a confirmation email link
+      ** 2. Add this user to the admin database
+      ** 3. Send user a sign in email link
+      */
+      function randomPassword(length) {
+        const chars = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890';
+        let pass = '';
+        for (let x = 0; x < length; x += 1) {
+          const i = Math.floor(Math.random() * chars.length);
+          pass += chars.charAt(i);
+        }
+        return pass;
+      }
+
+      commit('setLoading', true);
+      commit('setError', null);
+      commit('setMessage', null);
+      authRefForCreate.createUserWithEmailAndPassword(payload.newAdmin.email, randomPassword(16))
+        .then(response => response.user)
+        // add useruid and user info to admins doc
+        .then(user =>
+          adminsRef.doc(user.uid).set({
+            email: payload.newAdmin.email,
+            name: payload.newAdmin.name,
+            role: payload.newAdmin.role,
+          }))
+        .then(() => {
+          console.log('New user added to database');
+          return authRefForCreate.signOut();
+        })
+        .then(() => {
+          console.log('Secondary user logged out');
+          return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
+        })
+        .then(() => {
+          console.log('Sign-in email has been sent');
+          commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
+          commit('setLoading', false);
+        })
+        .catch((error) => {
+          console.log(error);
+          commit('setError', error.message);
+          commit('setLoading', false);
+        });
+    },
+
+    confirmNewAdmin({ commit }, payload) {
+      /*
+      ** 1. Confirm valid email link
+      ** 2. If so, authenticate user via this email link
+      ** 3. Update user's password with payload
+      ** 4. Update database information from payload
+      ** 5. Catch any erros
+      */
       commit('setLoading', true);
       commit('setError', null);
       if (authRef.isSignInWithEmailLink(window.location.href)) {
@@ -35,6 +97,7 @@ export default {
           });
       }
     },
+
     signAdminIn({ commit }, payload) {
       commit('setLoading', true);
       commit('setError', null);
@@ -80,6 +143,7 @@ export default {
         });
     },
   },
+
   getters: {
     admin(state) {
       return state.admin;
@@ -89,6 +153,9 @@ export default {
     },
     loading(state) {
       return state.loading;
+    },
+    message(state) {
+      return state.message;
     },
   },
 };
