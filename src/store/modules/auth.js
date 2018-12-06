@@ -19,6 +19,22 @@ export default {
     },
   },
   actions: {
+    createNewAdmin({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+      if (authRef.isSignInWithEmailLink(window.location.href)) {
+        authRef.signInWithEmailLink(payload.email, window.location.href)
+          .then(response => response.user)
+          .then(user => user.updatePassword(payload.password)) // make sure we can set password
+          .then(() => {
+            commit('setAdmin', authRef.currentUser.uid);
+          })
+          .catch((error) => {
+            commit('setError', error.message);
+            commit('setLoading', false);
+          });
+      }
+    },
     signAdminIn({ commit }, payload) {
       commit('setLoading', true);
       commit('setError', null);

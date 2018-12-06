@@ -112,8 +112,6 @@
 </template>
 
 <script>
-// import { authRef } from '@/firebase/firebaseInit';
-
 export default {
   data() {
     return {
@@ -126,7 +124,13 @@ export default {
   },
   methods: {
     onConfirmAdmin() {
-      console.log('Confirming admin');
+      const newAdmin = {
+        name: this.name,
+        email: this.email,
+        role: this.role,
+        password: this.password,
+      };
+      this.$store.dispatch('createNewAdmin', newAdmin);
     },
   },
   computed: {
