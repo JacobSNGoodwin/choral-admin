@@ -65,7 +65,7 @@
               type="submit">Create New Admin</button>
           </form>
           <p
-            v-if="authError"
+            v-if="errorMessage"
             class="has-text-danger is-size-5 has-text-weight-semibold">{{errorMessage}}
           </p>
           <p
