@@ -87,9 +87,17 @@ export default {
       if (authRef.isSignInWithEmailLink(window.location.href)) {
         authRef.signInWithEmailLink(payload.email, window.location.href)
           .then(response => response.user)
-          .then(user => user.updatePassword(payload.password)) // make sure we can set password
+          .then(user => user.updatePassword(payload.password))
+          .then(() =>
+            // update changes to name or role
+            adminsRef.doc(authRef.currentUser.uid).set({
+              name: payload.name,
+              email: payload.email,
+              role: payload.role,
+            }))
           .then(() => {
             commit('setAdmin', authRef.currentUser.uid);
+            router.push({ name: 'manageAdmins' });
           })
           .catch((error) => {
             commit('setError', error.message);

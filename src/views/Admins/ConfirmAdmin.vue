@@ -47,11 +47,10 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('email') }"
                   name="email"
+                  readonly
+                  disabled
                   v-model="email"
-                  type="email"
-                  data-vv-delay="500"
-                  v-validate="'required|email'"
-                  placeholder="Email Address">
+                  type="email">
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
@@ -105,6 +104,10 @@
               :disabled="errors.any() || hasInvalidInput"
               type="submit">Confirm New Admin</button>
           </form>
+          <p
+            v-if="errorMessage"
+            class="has-text-danger is-size-5 has-text-weight-semibold">{{errorMessage}}
+          </p>
         </div>
       </div>
     </div>
@@ -130,13 +133,16 @@ export default {
         role: this.role,
         password: this.password,
       };
-      this.$store.dispatch('createNewAdmin', newAdmin);
+      this.$store.dispatch('confirmNewAdmin', newAdmin);
     },
   },
   computed: {
     hasInvalidInput() {
       // if any element is pristine, disable submit button
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
+    },
+    errorMessage() {
+      return this.$store.getters.errorMessage;
     },
   },
   created() {
