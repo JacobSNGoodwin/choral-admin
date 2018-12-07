@@ -21,7 +21,7 @@
       <p
         v-if="!loading"
         v-for="admin in adminList"
-        :key="admin">{{admin}}</p>
+        :key="admin.id">{{admin.data}}</p>
       </div>
     </div>
   </section>

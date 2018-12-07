@@ -27,7 +27,8 @@ export default {
       adminsRef.get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            adminList.push(doc.id);
+            const admin = { id: doc.id, data: doc.data() };
+            adminList.push(admin);
           });
           commit('setAdminList', adminList);
           commit('setLoading', false);
