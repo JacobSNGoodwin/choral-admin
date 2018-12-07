@@ -35,6 +35,9 @@
           <p class="has-text-weight-bold has-text-info">Role</p>
           <p>{{admin.data.role}}</p>
         </div>
+        <div class="buttons is-right">
+          <a class="button is-info is-right">Edit</a>
+        </div>
       </div>
     </div>
   </section>
