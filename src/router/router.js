@@ -7,6 +7,7 @@ import Login from '@/views/Login.vue';
 import ManageAdmins from '@/views/Admins/ManageAdmins.vue';
 import CreateAdmin from '@/views/Admins/CreateAdmin.vue';
 import ConfirmAdmin from '@/views/Admins/ConfirmAdmin.vue';
+import EditAdmin from '@/views/Admins/EditAdmin.vue';
 import ManagePerformances from '@/views/ManagePerformances.vue';
 import ManageAuditions from '@/views/ManageAuditions.vue';
 
@@ -49,6 +50,12 @@ const router = new Router({
       path: '/manage/admins/confirm/*',
       name: 'confirmAdmin',
       component: ConfirmAdmin,
+    },
+    {
+      path: '/manage/admins/edit/:id',
+      name: 'editAdmin',
+      component: EditAdmin,
+      props: true,
     },
     {
       path: '/manage/performances',

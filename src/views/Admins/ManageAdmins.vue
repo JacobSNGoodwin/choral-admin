@@ -36,7 +36,9 @@
           <p>{{admin.data.role}}</p>
         </div>
         <div class="buttons is-right">
-          <a class="button is-info is-right">Edit</a>
+          <router-link
+            :to="{name: 'editAdmin', params: {id: admin.id, admin: admin.data}}"
+            class="button is-info is-right">Edit</router-link>
         </div>
       </div>
     </div>
