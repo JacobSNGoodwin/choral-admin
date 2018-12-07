@@ -1,2 +1,10 @@
 // src/assets/sass/main.scss
-@import '~bulma/bulma'
+@import '~bulma/bulma';
+
+.container {
+  div {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+}
+
