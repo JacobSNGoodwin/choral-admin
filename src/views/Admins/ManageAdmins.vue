@@ -58,3 +58,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .box {
+    div {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+</style>
+
