@@ -24,7 +24,7 @@ export default {
       commit('setError', null);
 
       const adminList = [];
-      adminsRef.get()
+      adminsRef.orderBy('name').get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const admin = { id: doc.id, data: doc.data() };
