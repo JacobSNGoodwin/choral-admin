@@ -12,16 +12,29 @@
           <span>New Admin</span>
         </router-link>
       </div>
-      <div class="has-text-centered">
+      <div v-if="loading" class="has-text-centered">
         <span
-          class="icon is-large has-text-info has-text-centered"
-          v-if="loading">
+          class="icon is-large has-text-info has-text-centered">
           <i class="fas fa-circle-notch fa-spin fa-3x"></i>
         </span>
-      <p
+      </div>
+      <div
+        class="box"
         v-if="!loading"
         v-for="admin in adminList"
-        :key="admin.id">{{admin.data}}</p>
+        :key="admin.id">
+        <div>
+          <p class="has-text-weight-bold has-text-info">Name</p>
+          <p>{{admin.data.name}}</p>
+        </div>
+        <div>
+          <p class="has-text-weight-bold has-text-info">Email Address</p>
+          <p>{{admin.data.email}}</p>
+        </div>
+        <div>
+          <p class="has-text-weight-bold has-text-info">Role</p>
+          <p>{{admin.data.role}}</p>
+        </div>
       </div>
     </div>
   </section>
