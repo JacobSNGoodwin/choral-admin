@@ -23,11 +23,14 @@
 export default {
   computed: {
     adminList() {
-      return this.$store.getters.adminList;
+      return this.$store.getters['adminModule/adminList'];
+    },
+    loading() {
+      return this.$store.getters['adminModule/loading'];
     },
   },
   created() {
-    this.$store.dispatch('loadAdmins');
+    this.$store.dispatch('adminModule/loadAdmins');
   },
 };
 </script>
