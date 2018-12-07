@@ -141,6 +141,8 @@ export default {
       authRef.signOut()
         .then(() => {
           commit('setAdmin', null);
+          commit('setError', null);
+          commit('setMessage', null);
           commit('setLoading', false);
           router.push('/login');
         })
