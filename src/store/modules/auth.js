@@ -1,5 +1,6 @@
 import router from '@/router/router';
 import { authRef, adminsRef } from '@/firebase/firebaseInit';
+import uuidv4 from 'uuid/v4';
 
 export default {
   state: {
@@ -35,38 +36,31 @@ export default {
       ** 3. Send user a sign in email link
       */
 
+      const uuid = uuidv4();
+
       commit('setLoading', true);
       commit('setError', null);
       commit('setMessage', null);
-      
-      adminsRef.
-      // authRefForCreate.createUserWithEmailAndPassword(payload.newAdmin.email, randomPassword(16))
-      //   .then(response => response.user)
-      //   // add useruid and user info to admins doc
-      //   .then(user =>
-      //     adminsRef.doc(user.uid).set({
-      //       email: payload.newAdmin.email,
-      //       name: payload.newAdmin.name,
-      //       role: payload.newAdmin.role,
-      //     }))
-      //   .then(() => {
-      //     console.log('New user added to database');
-      //     return authRefForCreate.signOut();
-      //   })
-      //   .then(() => {
-      //     console.log('Secondary user logged out');
-      //     return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
-      //   })
-      //   .then(() => {
-      //     console.log('Sign-in email has been sent');
-      //     commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
-      //     commit('setLoading', false);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     commit('setError', error.message);
-      //     commit('setLoading', false);
-      //   });
+
+      adminsRef.doc(uuid).set({
+        email: payload.newAdmin.email,
+        name: payload.newAdmin.name,
+        role: payload.newAdmin.role,
+      })
+        .then(() => {
+          console.log('New admin document created successfully');
+          return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
+        })
+        .then(() => {
+          console.log(`A login email has been successfuly sent to ${payload.newAdmin.email}`);
+          commit('setLoading', false);
+          commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
+        })
+        .catch((error) => {
+          console.log(error);
+          commit('setError', error);
+          commit('setLoading', false);
+        });
     },
 
     confirmNewAdmin({ commit }, payload) {
