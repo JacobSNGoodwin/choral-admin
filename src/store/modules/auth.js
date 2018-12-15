@@ -1,5 +1,5 @@
 import router from '@/router/router';
-import { authRef, authRefForCreate, adminsRef } from '@/firebase/firebaseInit';
+import { authRef, adminsRef } from '@/firebase/firebaseInit';
 
 export default {
   state: {
@@ -27,51 +27,46 @@ export default {
   actions: {
     createNewAdmin({ commit }, payload) {
       /*
-      ** 1. Create a user with the given email address and a temporary password
-      ** 2. Send user a confirmation email link
-      ** 2. Add this user to the admin database
+      ** 1. Create a new uuid
+      **   - This is necessary so we can use cloud functions to then create a new
+      **   - firebase authentication user
+      ** 2. Add a document to admins collection with data from form
+      **   - This will then trigger a cloud function to create a new user
       ** 3. Send user a sign in email link
       */
-      function randomPassword(length) {
-        const chars = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890';
-        let pass = '';
-        for (let x = 0; x < length; x += 1) {
-          const i = Math.floor(Math.random() * chars.length);
-          pass += chars.charAt(i);
-        }
-        return pass;
-      }
 
       commit('setLoading', true);
       commit('setError', null);
       commit('setMessage', null);
-      authRefForCreate.createUserWithEmailAndPassword(payload.newAdmin.email, randomPassword(16))
-        .then(response => response.user)
-        // add useruid and user info to admins doc
-        .then(user =>
-          adminsRef.doc(user.uid).set({
-            email: payload.newAdmin.email,
-            name: payload.newAdmin.name,
-            role: payload.newAdmin.role,
-          }))
-        .then(() => {
-          console.log('New user added to database');
-          return authRefForCreate.signOut();
-        })
-        .then(() => {
-          console.log('Secondary user logged out');
-          return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
-        })
-        .then(() => {
-          console.log('Sign-in email has been sent');
-          commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
-          commit('setLoading', false);
-        })
-        .catch((error) => {
-          console.log(error);
-          commit('setError', error.message);
-          commit('setLoading', false);
-        });
+      
+      adminsRef.
+      // authRefForCreate.createUserWithEmailAndPassword(payload.newAdmin.email, randomPassword(16))
+      //   .then(response => response.user)
+      //   // add useruid and user info to admins doc
+      //   .then(user =>
+      //     adminsRef.doc(user.uid).set({
+      //       email: payload.newAdmin.email,
+      //       name: payload.newAdmin.name,
+      //       role: payload.newAdmin.role,
+      //     }))
+      //   .then(() => {
+      //     console.log('New user added to database');
+      //     return authRefForCreate.signOut();
+      //   })
+      //   .then(() => {
+      //     console.log('Secondary user logged out');
+      //     return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
+      //   })
+      //   .then(() => {
+      //     console.log('Sign-in email has been sent');
+      //     commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
+      //     commit('setLoading', false);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     commit('setError', error.message);
+      //     commit('setLoading', false);
+      //   });
     },
 
     confirmNewAdmin({ commit }, payload) {
