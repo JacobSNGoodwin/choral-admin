@@ -5,7 +5,7 @@
       <div class="has-text-centered">
         <router-link
           class="button is-medium has-text-centered is-danger"
-          to="/manage/admins/create">
+           :to="{name: 'createAdmin'}">
           <span class="icon">
             <i class="fas fa-plus-circle"></i>
           </span>

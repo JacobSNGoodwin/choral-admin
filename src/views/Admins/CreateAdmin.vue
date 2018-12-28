@@ -93,7 +93,7 @@ export default {
         // URL you want to redirect back to. The domain for this
         // URL must be whitelisted in the Firebase Console.
         // Append email as query parameter so user need not reenter it
-        url: `${process.env.VUE_APP_DOMAIN}/manage/admins/confirm/` +
+        url: `${process.env.VUE_APP_DOMAIN}/admins/confirm/` +
           `?email=${this.email}` +
           `&name=${this.name}` +
           `&role=${this.role}`,

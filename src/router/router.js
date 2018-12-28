@@ -35,24 +35,24 @@ const router = new Router({
       component: Login,
     },
     {
-      path: '/manage/admins',
+      path: '/admins',
       name: 'manageAdmins',
       component: ManageAdmins,
       linkLabel: 'Admins',
       linkStyle: 'is-primary',
     },
     {
-      path: '/manage/admins/create',
+      path: '/admins/create',
       name: 'createAdmin',
       component: CreateAdmin,
     },
     {
-      path: '/manage/admins/confirm/*',
+      path: '/admins/confirm/*',
       name: 'confirmAdmin',
       component: ConfirmAdmin,
     },
     {
-      path: '/manage/admins/edit/:id',
+      path: '/admins/:id/edit',
       name: 'editAdmin',
       component: EditAdmin,
       props: true,
