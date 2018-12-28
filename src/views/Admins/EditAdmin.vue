@@ -68,7 +68,11 @@
             </div>
             <div class="field file has-name is-fullwidth">
               <label class="file-label">
-              <input class="file-input" type="file" name="resume">
+              <input
+                class="file-input"
+                type="file"
+                name="profileImageFile"
+                @change="processFile($event)">
               <span class="file-cta">
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
@@ -78,7 +82,7 @@
                 </span>
               </span>
               <span class="file-name">
-                Screen Shot 2017-07-29 at 15.54.25.png
+                {{ profileImageFile.name }}
               </span>
               </label>
             </div>
@@ -101,9 +105,17 @@
 <script>
 export default {
   props: ['id'],
+  data() {
+    return {
+      profileImageFile: null,
+    };
+  },
   methods: {
     onEditAdmin() {
       console.log('Editing Admin!');
+    },
+    processFile(event) {
+      [this.profileImageFile] = event.target.files; // uses array destructuring cuz airbnb
     },
   },
   computed: {
