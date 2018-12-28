@@ -1,4 +1,4 @@
-import { adminsRef } from '@/firebase/firebaseInit';
+import { adminsRef, storageRef } from '@/firebase/firebaseInit';
 import router from '@/router/router';
 
 export default {
@@ -43,12 +43,24 @@ export default {
       commit('setError', null);
 
       // need to make cloud function for editing
+      const fileExt = payload.updatedImageFile.name.split('.').pop();
 
-      adminsRef.doc(payload.adminId).set({
-        name: payload.updatedName,
-        email: payload.updatedEmail,
-        role: payload.updatedRole,
-      })
+      // make path a consistent name so at most we'll have a png a jpeg file at
+      // the reference path. This way, we can forego a delete step for no
+
+      const storagePath = `images/${payload.adminId}/profileImage.${fileExt}`;
+      const metadata = { contentType: payload.updatedImageFile.type };
+
+      // store file - on success, get download url and store as part of admin info
+      storageRef.child(storagePath).put(payload.updatedImageFile, metadata)
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(url =>
+          adminsRef.doc(payload.adminId).set({
+            name: payload.updatedName,
+            email: payload.updatedEmail,
+            role: payload.updatedRole,
+            downloadURL: url,
+          }))
         .then(() => {
           // if successful route to manageAdmins, which will call loadAmins
           commit('setLoading', false);

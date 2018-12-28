@@ -87,6 +87,9 @@
               </span>
               </label>
             </div>
+            <figure class="image is-256x256">
+              <img :src="profileImageUrl">
+            </figure>
             <div class="buttons is-centered">
               <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
@@ -109,6 +112,7 @@ export default {
   data() {
     return {
       profileImageFile: '', // initialize as string even though will store a file
+      profileImageUrl: '',
     };
   },
   methods: {
@@ -118,13 +122,21 @@ export default {
         updatedName: this.currentAdmin.name,
         updatedEmail: this.currentAdmin.email,
         updatedRole: this.currentAdmin.role,
-        updatedImage: this.profileImageFile,
+        updatedImageFile: this.profileImageFile,
       };
       this.$store.dispatch('adminModule/editAdmin', updatedAdmin);
     },
     processFile(event) {
       const [file] = event.target.files;
       this.profileImageFile = file; // uses array destructuring cuz airbnb
+
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.profileImageUrl = reader.result;
+      });
+
+      reader.readAsDataURL(file);
     },
   },
   computed: {
