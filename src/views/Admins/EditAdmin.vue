@@ -4,7 +4,13 @@
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
           <h1 class="title has-text-centered has-text-weight-bold">Edit Admin</h1>
-          <form @submit.prevent="onEditAdmin">
+          <div v-if="loading" class="has-text-centered">
+            <span
+              class="icon is-large has-text-info has-text-centered">
+              <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+            </span>
+          </div>
+          <form v-if="!loading" @submit.prevent="onEditAdmin">
             <div class="field">
               <label class="label">Name</label>
               <div class="control has-icons-left">
@@ -60,7 +66,7 @@
                   class="help is-danger">{{ errors.first('email') }}</p>
               </div>
             </div>
-            <div class="file has-name is-fullwidth">
+            <div class="field file has-name is-fullwidth">
               <label class="file-label">
               <input class="file-input" type="file" name="resume">
               <span class="file-cta">
@@ -68,7 +74,7 @@
                   <i class="fas fa-upload"></i>
                 </span>
                 <span class="file-label">
-                  Choose a file…
+                  Chose Profile Image
                 </span>
               </span>
               <span class="file-name">
@@ -95,13 +101,6 @@
 <script>
 export default {
   props: ['id'],
-  // data() {
-  //   return {
-  //     name: this.currentAdmin.data.name,
-  //     role: this.currentAdmin.data.role,
-  //     email: this.currentAdmin.data.email,
-  //   };
-  // },
   methods: {
     onEditAdmin() {
       console.log('Editing Admin!');
@@ -117,8 +116,11 @@ export default {
       const admin = admins.filter(a => a.id === this.id);
       return admin[0];
     },
+    loading() {
+      return this.$store.getters['adminModule/loading'];
+    },
   },
-  created() {
+  beforeCreate() {
     if (!this.admin) {
       // handle a hard refresh
       this.$store.dispatch('adminModule/loadAdmins');
@@ -126,3 +128,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .file {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+</style>
