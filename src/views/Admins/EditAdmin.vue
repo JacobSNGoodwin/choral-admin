@@ -17,7 +17,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('name') }"
                   name="name"
-                  v-model="currentAdmin.data.name"
+                  v-model="currentAdmin.name"
                   data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Full Name">
@@ -35,7 +35,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('role') }"
                   name="role"
-                  v-model="currentAdmin.data.role"
+                  v-model="currentAdmin.role"
                   data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Role">
@@ -53,7 +53,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('email') }"
                   name="email"
-                  v-model="currentAdmin.data.email"
+                  v-model="currentAdmin.email"
                   type="email"
                   data-vv-delay="500"
                   v-validate="'required|email'"
@@ -72,6 +72,7 @@
                 class="file-input"
                 type="file"
                 name="profileImageFile"
+                accept="image/x-png,image/jpeg"
                 @change="processFile($event)">
               <span class="file-cta">
                 <span class="file-icon">
@@ -115,7 +116,8 @@ export default {
       console.log('Editing Admin!');
     },
     processFile(event) {
-      [this.profileImageFile] = event.target.files; // uses array destructuring cuz airbnb
+      const [file] = event.target.files;
+      this.profileImageFile = file; // uses array destructuring cuz airbnb
     },
   },
   computed: {
@@ -126,7 +128,7 @@ export default {
     currentAdmin() {
       const admins = this.$store.getters['adminModule/adminList'];
       const admin = admins.filter(a => a.id === this.id);
-      return admin[0];
+      return admin[0].data;
     },
     loading() {
       return this.$store.getters['adminModule/loading'];
