@@ -108,12 +108,19 @@ export default {
   props: ['id'],
   data() {
     return {
-      profileImageFile: null,
+      profileImageFile: '', // initialize as string even though will store a file
     };
   },
   methods: {
     onEditAdmin() {
-      console.log('Editing Admin!');
+      const updatedAdmin = {
+        adminId: this.id,
+        updatedName: this.currentAdmin.name,
+        updatedEmail: this.currentAdmin.email,
+        updatedRole: this.currentAdmin.role,
+        updatedImage: this.profileImageFile,
+      };
+      this.$store.dispatch('adminModule/editAdmin', updatedAdmin);
     },
     processFile(event) {
       const [file] = event.target.files;

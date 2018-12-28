@@ -1,4 +1,5 @@
 import { adminsRef } from '@/firebase/firebaseInit';
+import router from '@/router/router';
 
 export default {
   namespaced: true,
@@ -32,6 +33,26 @@ export default {
           });
           commit('setAdminList', adminList);
           commit('setLoading', false);
+        })
+        .catch((error) => {
+          commit('setError', error.message);
+        });
+    },
+    editAdmin({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      // need to make cloud function for editing
+
+      adminsRef.doc(payload.adminId).set({
+        name: payload.updatedName,
+        email: payload.updatedEmail,
+        role: payload.updatedRole,
+      })
+        .then(() => {
+          // if successful route to manageAdmins, which will call loadAmins
+          commit('setLoading', false);
+          router.push({ name: 'manageAdmins' });
         })
         .catch((error) => {
           commit('setError', error.message);
