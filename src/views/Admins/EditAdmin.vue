@@ -87,9 +87,11 @@
               </span>
               </label>
             </div>
-            <figure class="image is-256x256">
-              <img :src="profileImageUrl">
-            </figure>
+            <div class="is-flex is-horizontal-center">
+              <figure class="image is-128x128">
+                <img :src="profileImageUrl">
+              </figure>
+            </div>
             <div class="buttons is-centered">
               <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
@@ -166,5 +168,9 @@ export default {
   .file {
     margin-top: 2em;
     margin-bottom: 2em;
+  }
+
+  .is-horizontal-center {
+    justify-content: center;
   }
 </style>
