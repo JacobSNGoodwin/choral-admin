@@ -37,7 +37,7 @@
         </div>
         <div class="buttons is-right">
           <router-link
-            :to="{name: 'editAdmin', params: {id: admin.id, admin: admin.data}}"
+            :to="{name: 'editAdmin', params: {id: admin.id}}"
             class="button is-info is-right">Edit</router-link>
         </div>
       </div>

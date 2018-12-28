@@ -60,9 +60,15 @@
                   class="help is-danger">{{ errors.first('email') }}</p>
               </div>
             </div>
-            <button class="button is-info"
+            <div class="buttons is-centered">
+              <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
               type="submit">Edit Admin</button>
+              <router-link
+                :to="{name: 'manageAdmins'}"
+                tag="button"
+                class="button is-danger">Back</router-link>
+            </div>
           </form>
         </div>
       </div>
