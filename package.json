@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "bulma": "^0.7.2",
+    "croppie": "^2.6.2",
     "firebase": "^5.5.7",
     "uuid": "^3.3.2",
     "vee-validate": "^2.1.2",
