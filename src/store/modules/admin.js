@@ -67,7 +67,9 @@ export default {
           router.push({ name: 'manageAdmins' });
         })
         .catch((error) => {
+          console.log(error);
           commit('setError', error.message);
+          commit('setLoading', false);
         });
     },
   },

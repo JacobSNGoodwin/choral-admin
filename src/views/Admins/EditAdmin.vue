@@ -88,9 +88,13 @@
               </label>
             </div>
             <div class="is-flex is-horizontal-center">
-              <figure class="image is-128x128">
-                <img :src="profileImageUrl">
-              </figure>
+              <vue-croppie
+                v-show="profileImageFile"
+                ref="croppieRef"
+                :enableOrientation="true"
+                :viewport="{ width: 200, height: 200, type: 'circle' }"
+                :boundary="{ width: 200, height: 200}">
+              </vue-croppie>
             </div>
             <div class="buttons is-centered">
               <button class="button is-info"
@@ -119,14 +123,30 @@ export default {
   },
   methods: {
     onEditAdmin() {
-      const updatedAdmin = {
-        adminId: this.id,
-        updatedName: this.currentAdmin.name,
-        updatedEmail: this.currentAdmin.email,
-        updatedRole: this.currentAdmin.role,
-        updatedImageFile: this.profileImageFile,
+      const croppedOptions = {
+        type: 'blob',
+        format: 'jpeg',
+        circle: true,
       };
-      this.$store.dispatch('adminModule/editAdmin', updatedAdmin);
+
+      this.$refs.croppieRef.result(croppedOptions)
+        .then((output) => {
+          const croppedImageFile = new File([output], this.profileImageFile.name, {
+            type: 'image/jpeg',
+          });
+
+          const updatedAdmin = {
+            adminId: this.id,
+            updatedName: this.currentAdmin.name,
+            updatedEmail: this.currentAdmin.email,
+            updatedRole: this.currentAdmin.role,
+            updatedImageFile: croppedImageFile,
+          };
+          this.$store.dispatch('adminModule/editAdmin', updatedAdmin);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     processFile(event) {
       const [file] = event.target.files;
@@ -136,6 +156,9 @@ export default {
 
       reader.addEventListener('load', () => {
         this.profileImageUrl = reader.result;
+        this.$refs.croppieRef.bind({
+          url: this.profileImageUrl,
+        });
       });
 
       reader.readAsDataURL(file);
