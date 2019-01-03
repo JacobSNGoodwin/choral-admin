@@ -127,6 +127,7 @@ export default {
         type: 'blob',
         format: 'jpeg',
         circle: true,
+        size: 'original',
       };
 
       this.$refs.croppieRef.result(croppedOptions)
