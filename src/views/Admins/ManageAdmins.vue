@@ -18,27 +18,47 @@
           <i class="fas fa-circle-notch fa-spin fa-3x"></i>
         </span>
       </div>
-      <div
-        class="box"
-        v-if="!loading"
+      <div v-if="!loading" class="columns is-tablet is-multiline">
+        <div
+        class="column is-one-quarter-tablet"
         v-for="admin in adminList"
         :key="admin.id">
-        <div>
-          <p class="has-text-weight-bold has-text-info">Name</p>
-          <p>{{admin.data.name}}</p>
-        </div>
-        <div>
-          <p class="has-text-weight-bold has-text-info">Email Address</p>
-          <p>{{admin.data.email}}</p>
-        </div>
-        <div>
-          <p class="has-text-weight-bold has-text-info">Role</p>
-          <p>{{admin.data.role}}</p>
-        </div>
-        <div class="buttons is-right">
-          <router-link
-            :to="{name: 'editAdmin', params: {id: admin.id}}"
-            class="button is-info is-right">Edit</router-link>
+          <div class="card">
+            <div v-if="admin.data.downloadURL" class="card-image">
+              <figure class="image is-square">
+                <img :src="admin.data.downloadURL" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Name
+                </div>
+                <div class="is-size-6 content-item">{{admin.data.name}}</div>
+              </div>
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Email Address
+                </div>
+                <div class="is-size-6 content-item">{{admin.data.email}}</div>
+              </div>
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Role
+                </div>
+                <div class="is-size-6 content-item">{{admin.data.role}}</div>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <router-link
+                :to="{name: 'editAdmin', params: {id: admin.id}}"
+                class="card-footer-item">Edit
+              </router-link>
+            </footer>
+          </div>
         </div>
       </div>
     </div>
@@ -62,11 +82,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .box {
-    div {
-      margin-top: 0.25em;
-      margin-bottom: 0.25em;
-    }
+  .card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .content-item-title {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .content-item {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
 </style>
 
