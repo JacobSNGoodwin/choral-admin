@@ -41,36 +41,54 @@ export default {
     editAdmin({ commit }, payload) {
       commit('setLoading', true);
       commit('setError', null);
-
-      // need to make cloud function for editing
-      const fileExt = payload.updatedImageFile.name.split('.').pop();
-
-      // make path a consistent name so at most we'll have a png a jpeg file at
-      // the reference path. This way, we can forego a delete step for now
-
-      const storagePath = `images/${payload.adminId}/profileImage.${fileExt}`;
-      const metadata = { contentType: payload.updatedImageFile.type };
-
       // store file - on success, get download url and store as part of admin info
-      storageRef.child(storagePath).put(payload.updatedImageFile, metadata)
-        .then(snapshot => snapshot.ref.getDownloadURL())
-        .then(url =>
-          adminsRef.doc(payload.adminId).set({
-            name: payload.updatedName,
-            email: payload.updatedEmail,
-            role: payload.updatedRole,
-            downloadURL: url,
-          }))
-        .then(() => {
-          // if successful route to manageAdmins, which will call loadAmins
-          commit('setLoading', false);
-          router.push({ name: 'manageAdmins' });
+      // only if the user has an updatedImageFile
+      if (payload.updatedImageFile) {
+        // need to make cloud function for editing
+        const fileExt = payload.updatedImageFile.name.split('.').pop();
+
+        // make path a consistent name so at most we'll have a png a jpeg file at
+        // the reference path. This way, we can forego a delete step for now
+
+        const storagePath = `images/${payload.adminId}/profileImage.${fileExt}`;
+        const metadata = { contentType: payload.updatedImageFile.type };
+
+        storageRef.child(storagePath).put(payload.updatedImageFile, metadata)
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then(url =>
+            adminsRef.doc(payload.adminId).set({
+              name: payload.updatedName,
+              email: payload.updatedEmail,
+              role: payload.updatedRole,
+              downloadURL: url,
+            }))
+          .then(() => {
+            // if successful route to manageAdmins, which will call loadAmins
+            commit('setLoading', false);
+            router.push({ name: 'manageAdmins' });
+          })
+          .catch((error) => {
+            console.log(error);
+            commit('setError', error.message);
+            commit('setLoading', false);
+          });
+      } else {
+        // we keep the current download url if no new images was added
+        adminsRef.doc(payload.adminId).update({
+          name: payload.updatedName,
+          email: payload.updatedEmail,
+          role: payload.updatedRole,
         })
-        .catch((error) => {
-          console.log(error);
-          commit('setError', error.message);
-          commit('setLoading', false);
-        });
+          .then(() => {
+            commit('setLoading', false);
+            router.push({ name: 'manageAdmins' });
+          })
+          .catch((error) => {
+            console.log(error);
+            commit('setError', error.message);
+            commit('setLoading', false);
+          });
+      }
     },
   },
   getters: {

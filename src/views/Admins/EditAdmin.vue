@@ -134,12 +134,15 @@ export default {
         circle: true,
         size: 'viewport',
       };
+      let croppedImageFile = null;
 
       this.$refs.croppieRef.result(croppedOptions)
         .then((output) => {
-          const croppedImageFile = new File([output], this.profileImageFile.name, {
-            type: 'image/jpeg',
-          });
+          if (output) {
+            croppedImageFile = new File([output], this.profileImageFile.name, {
+              type: 'image/jpeg',
+            });
+          }
 
           const updatedAdmin = {
             adminId: this.id,
