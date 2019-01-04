@@ -4,6 +4,12 @@
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
           <h1 class="title has-text-centered has-text-weight-bold">Edit Admin</h1>
+          <div class="buttons is-centered">
+            <router-link
+            :to="{name: 'manageAdmins'}"
+            tag="button"
+            class="button is-warning">Back</router-link>
+          </div>
           <div v-if="loading" class="has-text-centered">
             <span
               class="icon is-large has-text-info has-text-centered">
@@ -104,15 +110,36 @@
             <div class="buttons is-centered">
               <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
-              type="submit">Edit Admin</button>
-              <router-link
-                :to="{name: 'manageAdmins'}"
-                tag="button"
-                class="button is-danger">Back</router-link>
+              type="submit">Save Changes</button>
+              <button
+              @click.prevent="confirmDelete"
+              class="button is-danger">Delete Admin</button>
             </div>
           </form>
         </div>
       </div>
+    </div>
+    <div :class="{ 'modal': true, 'is-active': showModal }">
+      <div @click.prevent="clearModal" class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">Are you sure?</p>
+          </header>
+          <div class="card-content">
+          <div class="content">
+            You cannot undo this delete. All admin information will be lost.
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#"
+            @click.prevent="onDeleteAdmin"
+            class="card-footer-item has-text-danger">Confirm Delete</a>
+            <a @click.prevent="clearModal" href="#" class="card-footer-item">Cancel</a>
+          </footer>
+        </div>
+      </div>
+      <button @click.prevent="clearModal" class="modal-close is-large" aria-label="close"></button>
     </div>
   </section>
 </template>
@@ -124,6 +151,7 @@ export default {
     return {
       profileImageFile: '', // initialize as string even though will store a file
       newProfileImageUrl: '',
+      showModal: false,
     };
   },
   methods: {
@@ -156,6 +184,15 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    onDeleteAdmin() {
+      this.$store.dispatch('adminModule/deleteAdmin', this.id);
+    },
+    confirmDelete() {
+      this.showModal = true;
+    },
+    clearModal() {
+      this.showModal = false;
     },
     processFile(event) {
       const [file] = event.target.files;
