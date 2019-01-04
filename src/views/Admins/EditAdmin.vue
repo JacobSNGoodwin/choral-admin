@@ -23,7 +23,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('name') }"
                   name="name"
-                  v-model="currentAdmin.name"
+                  v-model="adminToEdit.name"
                   data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Full Name">
@@ -41,7 +41,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('role') }"
                   name="role"
-                  v-model="currentAdmin.role"
+                  v-model="adminToEdit.role"
                   data-vv-delay="500"
                   v-validate="'required|min:2'"
                   placeholder="Role">
@@ -59,7 +59,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('email') }"
                   name="email"
-                  v-model="currentAdmin.email"
+                  v-model="adminToEdit.email"
                   type="email"
                   data-vv-delay="500"
                   v-validate="'required|email'"
@@ -72,11 +72,16 @@
                   class="help is-danger">{{ errors.first('email') }}</p>
               </div>
             </div>
-            <div v-if="currentAdmin.downloadURL">
+            <div v-if="adminToEdit.downloadURL">
               <label class="label">Current Profile Image</label>
               <figure class="image">
-                <img class="is-rounded" :src="currentAdmin.downloadURL" alt="Current Image">
+                <img class="is-rounded" :src="adminToEdit.downloadURL" alt="Current Image">
               </figure>
+              <div class="buttons is-centered">
+                <button
+                class="button"
+                @click.prevent="removeImage">Remove Image</button>
+              </div>
             </div>
             <div class="field file has-name is-boxed is-fullwidth">
               <label class="file-label">
@@ -178,9 +183,9 @@ export default {
 
           const updatedAdmin = {
             adminId: this.id,
-            updatedName: this.currentAdmin.name,
-            updatedEmail: this.currentAdmin.email,
-            updatedRole: this.currentAdmin.role,
+            updatedName: this.adminToEdit.name,
+            updatedEmail: this.adminToEdit.email,
+            updatedRole: this.adminToEdit.role,
             updatedImageFile: croppedImageFile,
           };
           this.$store.dispatch('adminModule/editAdmin', updatedAdmin);
@@ -197,6 +202,9 @@ export default {
     },
     clearModal() {
       this.showModal = false;
+    },
+    removeImage() {
+      this.$store.dispatch('adminModule/removeImage', this.id);
     },
     processFile(event) {
       const [file] = event.target.files;
@@ -219,7 +227,7 @@ export default {
       // if any element is pristine, don't disable submit button
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
     },
-    currentAdmin() {
+    adminToEdit() {
       const admins = this.$store.getters['adminModule/adminList'];
       const admin = admins.filter(a => a.id === this.id);
       return admin[0].data;
@@ -229,8 +237,7 @@ export default {
     },
   },
   beforeCreate() {
-    if (!this.admin) {
-      // handle a hard refresh
+    if (this.$store.getters['adminModule/adminList'].length === 0) {
       this.$store.dispatch('adminModule/loadAdmins');
     }
   },

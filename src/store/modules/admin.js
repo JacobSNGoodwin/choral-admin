@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     adminList: [],
+    adminToEdit: null,
     loading: false,
     error: null,
   },
@@ -17,6 +18,12 @@ export default {
     },
     setError(state, payload) {
       state.error = payload;
+    },
+    removeImage(state, payload) {
+      const adminIndex = state.adminList.findIndex(admin => admin.id === payload);
+      const updatedAdmin = state.adminList[adminIndex];
+      updatedAdmin.data.downloadURL = null;
+      state.adminList[adminIndex] = updatedAdmin;
     },
   },
   actions: {
@@ -101,6 +108,22 @@ export default {
         .catch((error) => {
           commit('setError', error);
           commit('setLoading', false);
+        });
+    },
+    removeImage({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      adminsRef.doc(payload).set({
+        downloadURL: null,
+      }, { merge: true })
+        .then(() => {
+          commit('removeImage', payload);
+          commit('setLoading', false);
+        })
+        .catch((error) => {
+          commit('setLoading', false);
+          commit('setError', error);
         });
     },
   },
