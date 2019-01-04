@@ -29,6 +29,13 @@
                 <img class="is-rounded" :src="admin.data.downloadURL" alt="Placeholder image">
               </figure>
             </div>
+            <div v-else class="card-image">
+              <figure class="image">
+                <img class="is-rounded"
+                src="@/assets/profile_fill.svg"
+                alt="Placeholder image">
+              </figure>
+            </div>
             <div class="card-content">
               <div class="content">
                 <div
