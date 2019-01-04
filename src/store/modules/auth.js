@@ -28,6 +28,7 @@ export default {
   actions: {
     createNewAdmin({ commit }, payload) {
       /*
+      ** 0. Make sure email address isn't in database
       ** 1. Create a new uuid
       **   - This is necessary so we can use cloud functions to then create a new
       **   - firebase authentication user
@@ -36,17 +37,23 @@ export default {
       ** 3. Send user a sign in email link
       */
 
-      const uuid = uuidv4();
-
       commit('setLoading', true);
       commit('setError', null);
       commit('setMessage', null);
 
-      adminsRef.doc(uuid).set({
-        email: payload.newAdmin.email,
-        name: payload.newAdmin.name,
-        role: payload.newAdmin.role,
-      })
+      adminsRef.where('email', '==', payload.newAdmin.email).get()
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            throw new Error('this email address is already in use!').toString();
+          } else {
+            const uuid = uuidv4();
+            return adminsRef.doc(uuid).set({
+              email: payload.newAdmin.email,
+              name: payload.newAdmin.name,
+              role: payload.newAdmin.role,
+            });
+          }
+        })
         .then(() => {
           console.log('New admin document created successfully');
           return authRef.sendSignInLinkToEmail(payload.newAdmin.email, payload.actionCodeSettings);
@@ -57,7 +64,6 @@ export default {
           commit('setMessage', `A login email has been successfuly sent to ${payload.newAdmin.email}`);
         })
         .catch((error) => {
-          console.log(error);
           commit('setError', error);
           commit('setLoading', false);
         });
