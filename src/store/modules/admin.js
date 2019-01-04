@@ -90,6 +90,19 @@ export default {
           });
       }
     },
+    deleteAdmin({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+      adminsRef.doc(payload).delete()
+        .then(() => {
+          commit('setLoading', false);
+          router.push({ name: 'manageAdmins' });
+        })
+        .catch((error) => {
+          commit('setError', error);
+          commit('setLoading', false);
+        });
+    },
   },
   getters: {
     adminList(state) {
