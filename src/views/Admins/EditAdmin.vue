@@ -72,7 +72,7 @@
                 <img class="is-rounded" :src="currentAdmin.downloadURL" alt="Current Image">
               </figure>
             </div>
-            <div class="field file has-name is-fullwidth">
+            <div class="field file has-name is-boxed is-fullwidth">
               <label class="file-label">
               <input
                 class="file-input"
@@ -204,5 +204,9 @@ export default {
       max-width: 256px;
       margin: auto;
     }
+  }
+
+  .file-label .file-name {
+    text-align: center;
   }
 </style>
