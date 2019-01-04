@@ -134,8 +134,10 @@
           <footer class="card-footer">
             <a href="#"
             @click.prevent="onDeleteAdmin"
-            class="card-footer-item has-text-danger">Confirm Delete</a>
-            <a @click.prevent="clearModal" href="#" class="card-footer-item">Cancel</a>
+            class="card-footer-item has-text-danger has-text-weight-bold">Confirm Delete</a>
+            <a @click.prevent="clearModal"
+            href="#"
+            class="card-footer-item has-text-weight-bold">Cancel</a>
           </footer>
         </div>
       </div>
