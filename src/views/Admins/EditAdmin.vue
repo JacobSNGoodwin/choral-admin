@@ -66,6 +66,12 @@
                   class="help is-danger">{{ errors.first('email') }}</p>
               </div>
             </div>
+            <div v-if="currentAdmin.downloadURL">
+              <label class="label">Current Profile Image</label>
+              <figure class="image">
+                <img class="is-rounded" :src="currentAdmin.downloadURL" alt="Current Image">
+              </figure>
+            </div>
             <div class="field file has-name is-fullwidth">
               <label class="file-label">
               <input
@@ -79,7 +85,7 @@
                   <i class="fas fa-upload"></i>
                 </span>
                 <span class="file-label">
-                  Chose Profile Image
+                  New Profile Image
                 </span>
               </span>
               <span class="file-name">
@@ -87,13 +93,12 @@
               </span>
               </label>
             </div>
-            <div class="is-flex is-horizontal-center">
+            <div>
               <vue-croppie
                 v-show="profileImageFile"
                 ref="croppieRef"
-                :enableOrientation="true"
-                :viewport="{ width: 200, height: 200, type: 'circle' }"
-                :boundary="{ width: 200, height: 200}">
+                :viewport="{ width: 256, height: 256, type: 'circle' }"
+                :boundary="{ width: 256, height: 256 }">
               </vue-croppie>
             </div>
             <div class="buttons is-centered">
@@ -118,7 +123,7 @@ export default {
   data() {
     return {
       profileImageFile: '', // initialize as string even though will store a file
-      profileImageUrl: '',
+      newProfileImageUrl: '',
     };
   },
   methods: {
@@ -127,7 +132,7 @@ export default {
         type: 'blob',
         format: 'jpeg',
         circle: true,
-        size: 'original',
+        size: 'viewport',
       };
 
       this.$refs.croppieRef.result(croppedOptions)
@@ -156,9 +161,9 @@ export default {
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        this.profileImageUrl = reader.result;
+        this.newProfileImageUrl = reader.result;
         this.$refs.croppieRef.bind({
-          url: this.profileImageUrl,
+          url: this.newProfileImageUrl,
         });
       });
 
@@ -194,7 +199,10 @@ export default {
     margin-bottom: 2em;
   }
 
-  .is-horizontal-center {
-    justify-content: center;
+  figure {
+    img {
+      max-width: 256px;
+      margin: auto;
+    }
   }
 </style>
