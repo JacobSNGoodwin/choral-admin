@@ -22,3 +22,6 @@ yarn-error.log*
 
 # Firebase config - since any user can create their own
 firebaseConfig.js
+.firebaserc
+firebase-debug.log
+functions/firebaseAdminConfig.js

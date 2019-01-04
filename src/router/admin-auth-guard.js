@@ -6,6 +6,14 @@ export default (to, from, next) => {
   if (store.getters.admin) {
     // if app is already loaded, we will have admin in vuex store
     next();
+  } else if (to.path === '/login' || to.path === '/emailverification') {
+    // If path is to login, allow to procede without rerunning authguard!
+    next();
+  } else if (to.name === 'confirmAdmin') {
+    // verify email link before permitting access
+    if (authRef.isSignInWithEmailLink(window.location.href)) {
+      next();
+    }
   } else {
     // otherwise, reach out to firebase
     authRef.onAuthStateChanged((user) => {
