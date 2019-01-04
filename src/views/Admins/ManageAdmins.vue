@@ -25,12 +25,12 @@
         :key="admin.id">
           <div class="card">
             <div v-if="admin.data.downloadURL" class="card-image">
-              <figure class="image">
+              <figure class="image is-128x128">
                 <img class="is-rounded" :src="admin.data.downloadURL" alt="Placeholder image">
               </figure>
             </div>
             <div v-else class="card-image">
-              <figure class="image">
+              <figure class="image is-128x128">
                 <img class="is-rounded"
                 src="@/assets/profile_fill.svg"
                 alt="Placeholder image">
@@ -92,6 +92,11 @@ export default {
   .is-rounded {
     padding: 0.5em;
   }
+
+  figure {
+    margin: auto;
+  }
+
   .card-content {
     padding-top: 0;
     padding-bottom: 0;

@@ -104,7 +104,9 @@
                 v-show="profileImageFile"
                 ref="croppieRef"
                 :viewport="{ width: 256, height: 256, type: 'circle' }"
-                :boundary="{ width: 256, height: 256 }">
+                :boundary="{ width: 256, height: 256 }"
+                :quality="1"
+                :enable-resize="false">
               </vue-croppie>
             </div>
             <div class="buttons is-centered">
@@ -243,7 +245,7 @@ export default {
 
   figure {
     img {
-      max-width: 256px;
+      max-width: 128px;
       margin: auto;
     }
   }
