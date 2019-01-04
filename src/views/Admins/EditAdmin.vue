@@ -206,7 +206,7 @@ export default {
     }
   }
 
-  .file-label .file-name {
+  .file-label, .file-name {
     text-align: center;
   }
 </style>
