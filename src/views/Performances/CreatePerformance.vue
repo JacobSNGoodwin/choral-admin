@@ -27,7 +27,7 @@
               <label class="label">Date</label>
               <flat-pickr
                 v-model="date"
-                :config="config"
+                :config="flatpickrConfig"
                 class="input"
               >
               </flat-pickr>
@@ -50,6 +50,9 @@ export default {
       date: null,
       flatpickrConfig: {
         wrap: true,
+        defaultDate: new Date().setHours(20, 0, 0),
+        enableTime: true,
+        dateFormat: 'l, Y-F-d \\a\\t h:i K',
       },
     };
   },
