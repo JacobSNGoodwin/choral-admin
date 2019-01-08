@@ -10,7 +10,7 @@ import 'flatpickr/dist/flatpickr.css';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
   faEnvelope, faKey, faPlusCircle, faCheck, faUser, faUserTie, faCircleNotch, faUpload,
-  faTheaterMasks, faCalendar,
+  faTheaterMasks, faCalendar, faLandmark, faThumbtack, faMapMarkedAlt,
 }
   from '@fortawesome/free-solid-svg-icons';
 
@@ -24,7 +24,7 @@ import './assets/sass/main.scss';
 // Configure font awesome
 library.add(
   faEnvelope, faKey, faPlusCircle, faCheck, faUser, faUserTie, faCircleNotch, faUpload,
-  faTheaterMasks, faCalendar,
+  faTheaterMasks, faCalendar, faLandmark, faThumbtack, faMapMarkedAlt,
 );
 dom.watch(); // Don't know where this is documented, but it gets it working!
 
