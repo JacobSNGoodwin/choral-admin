@@ -226,7 +226,7 @@ export default {
       city: null,
       postalCode: null,
       mapURL: null,
-      selectedState: 'CO', // default to Colorado just for demo purposes,
+      selectedState: null, // default to Colorado just for demo purposes,
       note: null,
       flatpickrConfig: {
         wrap: true,
@@ -283,6 +283,7 @@ export default {
     },
   },
   created() {
+    // initialize date to an iso string
     const toHours = new Date().setHours(20, 0, 0);
     const initDate = new Date(toHours);
     this.date = initDate.toISOString();
