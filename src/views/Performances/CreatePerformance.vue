@@ -24,13 +24,50 @@
               </div>
             </div>
             <div class="field">
-              <label class="label">Date</label>
+              <label class="label">Date and Time</label>
               <flat-pickr
                 v-model="date"
                 :config="flatpickrConfig"
                 class="input"
+                name="date"
+                v-validate="'required'"
               >
               </flat-pickr>
+            </div>
+            <div class="field">
+              <label class="label">Event Image</label>
+            </div>
+            <div class="field">
+              <label class="label">Venue Name</label>
+            </div>
+            <div>
+              <label class="label">Street Address 1</label>
+            </div>
+            <div class="field">
+              <label class="label">Street Address 2</label>
+            </div>
+            <div class="field">
+              <label class="label">City</label>
+            </div>
+            <div class="field">
+              <label class="label">State</label>
+              <div class="select">
+                <select v-model="selectedState" vee-validate="'required'">
+                  <option
+                    v-for="state in statesList"
+                    :key="state"
+                  >{{ state }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Postal Code</label>
+            </div>
+            <div class="field">
+              <label class="label">Link to Map</label>
+            </div>
+            <div class="field">
+              <label class="label">Note</label>
             </div>
             <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
@@ -43,11 +80,15 @@
 </template>
 
 <script>
+import statesList from '@/mixins/statesList';
+
 export default {
+  mixins: [statesList],
   data() {
     return {
       eventTitle: null,
       date: null,
+      selectedState: 'CO', // default to Colorado just for demo purposes
       flatpickrConfig: {
         wrap: true,
         defaultDate: new Date().setHours(20, 0, 0),
