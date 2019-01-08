@@ -25,14 +25,19 @@
             </div>
             <div class="field">
               <label class="label">Date and Time</label>
-              <flat-pickr
-                v-model="date"
-                :config="flatpickrConfig"
-                class="input"
-                name="date"
-                v-validate="'required'"
-              >
-              </flat-pickr>
+              <div class="control has-icons-left">
+                <flat-pickr
+                  v-model="date"
+                  :config="flatpickrConfig"
+                  class="input"
+                  name="date"
+                  v-validate="'required'"
+                >
+                </flat-pickr>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-calendar"></i>
+                </span>
+              </div>
             </div>
             <div class="field">
               <label class="label">Event Image</label>
