@@ -24,7 +24,13 @@
               </div>
             </div>
             <div class="field">
-              <label class="label">Label</label>
+              <label class="label">Date</label>
+              <flat-pickr
+                v-model="date"
+                :config="config"
+                class="input"
+              >
+              </flat-pickr>
             </div>
             <button class="button is-info"
               :disabled="errors.any() || hasInvalidInput"
@@ -37,15 +43,14 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker';
-
 export default {
-  components: {
-    Datepicker,
-  },
   data() {
     return {
       eventTitle: null,
+      date: null,
+      flatpickrConfig: {
+        wrap: true,
+      },
     };
   },
   methods: {
