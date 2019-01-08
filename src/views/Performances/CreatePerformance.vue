@@ -187,6 +187,17 @@
             </div>
             <div class="field">
               <label class="label">Note</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  name="note"
+                  v-model="note"
+                  data-vv-delay="500"
+                  placeholder="Note">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-thumbtack"></i>
+                </span>
+              </div>
             </div>
             <button class="button is-info"
               :disabled="errors.any() || requiredPristine"
@@ -215,12 +226,15 @@ export default {
       city: null,
       postalCode: null,
       mapURL: null,
-      selectedState: 'CO', // default to Colorado just for demo purposes
+      selectedState: 'CO', // default to Colorado just for demo purposes,
+      note: null,
       flatpickrConfig: {
         wrap: true,
         defaultDate: new Date().setHours(20, 0, 0),
         enableTime: true,
-        dateFormat: 'l, Y-F-d \\a\\t h:i K',
+        altInput: true,
+        altFormat: 'l, Y-F-d \\a\\t h:i K', // for display
+        dateFormat: 'Z', // UTC for storing data
       },
     };
   },
@@ -236,11 +250,12 @@ export default {
         state: this.selectedState,
         postalCode: this.postalCode,
         mapURL: this.mapURL,
+        note: this.note,
       };
 
       const imageFile = this.eventImageFile;
 
-      this.$store.dispatch('performanceModule/createAdmin', { newPerformance, imageFile });
+      this.$store.dispatch('performanceModule/createPerformance', { newPerformance, imageFile });
     },
     processFile(event) {
       const [file] = event.target.files;
@@ -266,6 +281,11 @@ export default {
       return this.fields.eventTitle.pristine ||
         this.fields.venueName.pristine;
     },
+  },
+  created() {
+    const toHours = new Date().setHours(20, 0, 0);
+    const initDate = new Date(toHours);
+    this.date = initDate.toISOString();
   },
 };
 </script>
