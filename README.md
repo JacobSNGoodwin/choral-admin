@@ -1,65 +1,62 @@
-# Colorado Mormon Chorale Webapp
+# Choral Admin WebApp
 
-The public repo for the build of the coloradomormonchorale.org application
+An example repo for an admin panel of a choir website
 
-## Getting Started
+Admin panel allows for create, read, edit, and delete
+* Choir performances
+* Admins
+* Audition info
+* _May add more features in the future_
 
-With NPM/Node installed fork/clone this repository. Within the root directory perform an npm install.
+# Prerequisites
 
-### Prerequisites
+### Node & NPM 
 
-Node & NPM.
+To install all project dependences
 
-```text
-Give examples
-```
+`npm install`
 
-A firebase account. See ./firebase/firebaseConfig.js.sample file for an example file. You will also need to create an initial authenticated user in firebase.
+To run vue project in development mode
 
-__Example will be provided in the future__
-
-### Installing
-
-Clone the repository
-
-```unix
-git clone https://github.com/abelgoodwin1988/coloradomormonchorale
-```
-
-move to directory and perform NPM install
-
-```unix
-cd coloradomormonchorale
-npm install
-```
-
-run the web app in a local env
-
-```unix
+`
 npm run serve
-```
+`
 
-## Running the tests
+To build the vue project
 
-### Break down into end to end tests
+`npm run build`
 
-### And coding style tests
+### Firebase
 
-## Deployment
+This project relies on the following firebase features
+* firestore
+* storage - for storing images
+* cloud functions
+* security rules for firestore and firebase storage
 
-At current we're deploying to gitpages. Checkout the gh-pages branch and run
+#### Firebase config
+ See /firebase/firebaseConfig.js.sample file for an example file. 
 
-```unix
-npm run build
-```
+ For information on setting up a firebase project and getting the configuration information visit:
 
-This will generate up-to-date css, javascript and html for serving up a static website. Copy the `./dist/index.html` file to `./index.html`. Update all references to `=dist/...`.
+ [https://firebase.google.com/docs/web/setup]( https://firebase.google.com/docs/web/setup)
 
-Commit and push changes to Github.
+#### Firebase Cloud Functions
 
-```unix
-git add -A && git commit -am "new build" && git push
-```
+The '/functions' folder contains cloud functions for performing server side operations such as adding and removing user authentication credentials.
+
+Before deploying the cloud functions, you will need to run `npm install` inside of the '/functions' folder
+
+To deploy cloud functions, run
+
+`firebase deploy --only functions`
+
+This requires an installation  of firebase tools. Please see for a complete example
+
+[https://firebase.google.com/docs/functions/get-started](https://firebase.google.com/docs/functions/get-started)
+
+#### Firebase security rules
+_To be included later_
 
 ## Built With
 
@@ -80,8 +77,9 @@ For the versions available, see the [tags on this repository](https://github.com
 
 ## Authors
 
-* **Abel Goodwin** - *Initial work*
 * **Jacob Goodwin** - *Initial work*
+* **Abel Goodwin** - *Initial work*
+
 
 
 ## License
