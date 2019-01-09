@@ -9,6 +9,9 @@ export default {
     error: null,
   },
   mutations: {
+    setPerformanceList(state, payload) {
+      state.performanceList = payload;
+    },
     setLoading(state, payload) {
       state.loading = payload;
     },
@@ -46,7 +49,7 @@ export default {
             router.push({ name: 'managePerformances' });
           })
           .catch((error) => {
-            commit('setError', error);
+            commit('setError', error.message);
             commit('setLoading', false);
           });
       } else {
@@ -56,15 +59,37 @@ export default {
             router.push({ name: 'managePerformances' });
           })
           .catch((error) => {
-            commit('setError', error);
+            commit('setError', error.message);
             commit('setLoading', false);
           });
       }
+    },
+    loadPerformances({ commit }) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      const performanceList = [];
+      performancesRef.orderBy('date').get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const performance = { id: doc.id, data: doc.data() };
+            performanceList.push(performance);
+          });
+          commit('setPerformanceList', performanceList);
+          commit('setLoading', false);
+        })
+        .catch((error) => {
+          commit('setError', error.message);
+          commit('setLoading', false);
+        });
     },
   },
   getters: {
     loading(state) {
       return state.loading;
+    },
+    performanceList(state) {
+      return state.performanceList;
     },
     error(state) {
       return state.error;
