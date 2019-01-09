@@ -89,6 +89,11 @@
                 <img v-if="eventImageURL" :src="eventImageURL" alt="Performance Image">
                 <img v-else :src="performance.downloadURL" alt="Performance Image">
               </figure>
+              <div class="buttons is-centered">
+                <button
+                class="button"
+                @click.prevent="removeImage">Remove Image</button>
+              </div>
             </div>
             <div class="field">
               <label class="label">Venue Name</label>
@@ -302,6 +307,18 @@ export default {
     },
     clearModal() {
       this.showModal = false;
+    },
+    removeImage() {
+      // clear locally if the image is newly added
+      this.eventImageURL = '';
+      this.eventImageFile = '';
+      // if there's a file on the server, we'll delete that, too
+      if (this.performance.storagePath) {
+        this.$store.dispatch('performanceModule/removeImage', {
+          performanceId: this.id,
+          storagePath: this.performance.storagePath,
+        });
+      }
     },
     processFile(event) {
       const [file] = event.target.files;

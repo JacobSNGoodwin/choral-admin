@@ -18,6 +18,15 @@ export default {
     setError(state, payload) {
       state.error = payload;
     },
+    removeImage(state, payload) {
+      const performanceIndex =
+        state.performanceList.findIndex(performance => performance.id === payload);
+      const updatedPerformance = state.performanceList[performanceIndex];
+      console.log('Updated performance', updatedPerformance);
+      updatedPerformance.data.downloadURL = null;
+      updatedPerformance.data.storagePath = null;
+      state.performanceList[performanceIndex] = updatedPerformance;
+    },
   },
   actions: {
     createPerformance({ commit }, payload) {
@@ -159,6 +168,24 @@ export default {
                 commit('setLoading', false);
               });
           }
+        });
+    },
+    removeImage({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      performancesRef.doc(payload.performanceId).set({
+        downloadURL: null,
+        storagePath: null,
+      }, { merge: true })
+        .then(() => storageRef.child(payload.storagePath).delete())
+        .then(() => {
+          commit('setLoading', false);
+          commit('removeImage', payload.performanceId);
+        })
+        .catch((error) => {
+          commit('setLoading', false);
+          commit('setError', error);
         });
     },
   },
