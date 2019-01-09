@@ -8,7 +8,9 @@ import ManageAdmins from '@/views/Admins/ManageAdmins.vue';
 import CreateAdmin from '@/views/Admins/CreateAdmin.vue';
 import ConfirmAdmin from '@/views/Admins/ConfirmAdmin.vue';
 import EditAdmin from '@/views/Admins/EditAdmin.vue';
-import ManagePerformances from '@/views/ManagePerformances.vue';
+import ManagePerformances from '@/views/Performances/ManagePerformances.vue';
+import CreatePerformance from '@/views/Performances/CreatePerformance.vue';
+import EditPerformance from '@/views/Performances/EditPerformance.vue';
 import ManageAuditions from '@/views/ManageAuditions.vue';
 
 
@@ -58,14 +60,25 @@ const router = new Router({
       props: true,
     },
     {
-      path: '/manage/performances',
+      path: '/performances',
       name: 'managePerformances',
       component: ManagePerformances,
       linkLabel: 'Performances',
       linkStyle: 'is-link',
     },
     {
-      path: '/manage/Auditions',
+      path: '/performances/create',
+      name: 'createPerformance',
+      component: CreatePerformance,
+    },
+    {
+      path: '/performances/:id/edit',
+      name: 'editPerformance',
+      component: EditPerformance,
+      props: true,
+    },
+    {
+      path: '/auditions',
       name: 'manageAuditions',
       component: ManageAuditions,
       linkLabel: 'Auditions',

@@ -57,7 +57,7 @@ export default {
         // make path a consistent name so at most we'll have a png a jpeg file at
         // the reference path. This way, we can forego a delete step for now
 
-        const storagePath = `images/${payload.adminId}/profileImage.${fileExt}`;
+        const storagePath = `/admins/${payload.adminId}/profileImage.${fileExt}`;
         const metadata = { contentType: payload.updatedImageFile.type };
 
         storageRef.child(storagePath).put(payload.updatedImageFile, metadata)
