@@ -102,6 +102,7 @@ export default {
             performancesRef.doc(payload.performanceId).set({
               ...payload.editedPerformance,
               downloadURL: url,
+              storagePath,
             }))
           .then(() => {
             // if successful route to manageAdmins, which will call loadAmins
@@ -128,6 +129,8 @@ export default {
       commit('setLoading', true);
       commit('setError', null);
       performancesRef.doc(payload).delete()
+        // also delete image for event
+        .then(() => storageRef.child(`/events/${payload}/eventImage`).delete())
         .then(() => {
           commit('setLoading', false);
           router.push({ name: 'managePerformances' });
