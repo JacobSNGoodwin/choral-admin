@@ -224,6 +224,30 @@
         </div>
       </div>
     </div>
+    <div :class="{ 'modal': true, 'is-active': showModal }">
+      <div @click.prevent="clearModal" class="modal-background"></div>
+      <div class="modal-content">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">Are you sure?</p>
+          </header>
+          <div class="card-content">
+          <div class="content">
+            You cannot undo this delete. All event information will be lost.
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#"
+            @click.prevent="onDeletePerformance"
+            class="card-footer-item has-text-danger has-text-weight-bold">Confirm Delete</a>
+            <a @click.prevent="clearModal"
+            href="#"
+            class="card-footer-item has-text-weight-bold">Cancel</a>
+          </footer>
+        </div>
+      </div>
+      <button @click.prevent="clearModal" class="modal-close is-large" aria-label="close"></button>
+    </div>
   </section>
 </template>
 
@@ -235,6 +259,7 @@ export default {
   mixins: [statesList],
   data() {
     return {
+      showModal: false,
       eventImageFile: '',
       eventImageURL: '',
       flatpickrConfig: {
@@ -268,7 +293,14 @@ export default {
       this.$store.dispatch('performanceModule/editPerformance', { editedPerformance, performanceId, imageFile });
     },
     onDeletePerformance() {
-      console.log('Delete Performance');
+      this.$store.dispatch('performanceModule/deletePerformance', this.id);
+      this.showModal = false;
+    },
+    confirmDelete() {
+      this.showModal = true;
+    },
+    clearModal() {
+      this.showModal = false;
     },
     processFile(event) {
       const [file] = event.target.files;

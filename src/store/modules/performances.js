@@ -124,6 +124,19 @@ export default {
           });
       }
     },
+    deletePerformance({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+      performancesRef.doc(payload).delete()
+        .then(() => {
+          commit('setLoading', false);
+          router.push({ name: 'managePerformances' });
+        })
+        .catch((error) => {
+          commit('setError', error);
+          commit('setLoading', false);
+        });
+    },
   },
   getters: {
     loading(state) {
