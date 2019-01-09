@@ -73,6 +73,8 @@ export default {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             const performance = { id: doc.id, data: doc.data() };
+            const dateUTC = new Date(performance.data.date).toUTCString();
+            performance.data.dateUTC = dateUTC;
             performanceList.push(performance);
           });
           commit('setPerformanceList', performanceList);
