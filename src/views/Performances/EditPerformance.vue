@@ -218,7 +218,7 @@
               type="submit">Save Changes</button>
               <button
               @click.prevent="confirmDelete"
-              class="button is-danger">Delete Admin</button>
+              class="button is-danger">Delete Performance</button>
             </div>
           </form>
         </div>
@@ -286,6 +286,7 @@ export default {
         mapURL: this.performance.mapURL,
         note: this.performance.note,
         downloadURL: this.performance.downloadURL,
+        storagePath: this.performance.storagePath,
       };
       const performanceId = this.id;
       const imageFile = this.eventImageFile;

@@ -26,22 +26,24 @@ export default {
 
       // declare outside of promise chain to access farther down the chain
       let eventId = null;
+      let storagePath = null;
+
       if (payload.imageFile) {
         // store file if it's available
         // could do if block inside of promise chain, too
+        const fileExt = payload.imageFile.name.split('.').pop();
+        const metadata = { contentType: payload.imageFile.type };
         performancesRef.add(payload.newPerformance)
           .then((docRef) => {
             eventId = docRef.id;
-            const fileExt = payload.imageFile.name.split('.').pop();
-            const storagePath = `/events/${eventId}/eventImage.${fileExt}`;
-            const metadata = { contentType: payload.imageFile.type };
-
+            storagePath = `/events/${eventId}/eventImage.${fileExt}`;
             return storageRef.child(storagePath).put(payload.imageFile, metadata);
           })
           .then(snapshot => snapshot.ref.getDownloadURL())
           .then(url =>
             performancesRef.doc(eventId).set({
               downloadURL: url,
+              storagePath,
             }, { merge: true }))
           .then(() => {
             // if successful route to manageAdmins, which will call loadAmins
@@ -53,7 +55,7 @@ export default {
             commit('setLoading', false);
           });
       } else {
-        performancesRef.add({ ...payload.newPerformance, downloadURL: null })
+        performancesRef.add({ ...payload.newPerformance, downloadURL: null, storagePath: null })
           .then(() => {
             commit('setLoading', false);
             router.push({ name: 'managePerformances' });
@@ -88,7 +90,6 @@ export default {
     editPerformance({ commit }, payload) {
       commit('setLoading', true);
       commit('setError', null);
-
       // declare outside of promise chain to access farther down the chain
       if (payload.imageFile) {
         // store file if it's available
@@ -96,6 +97,7 @@ export default {
         const fileExt = payload.imageFile.name.split('.').pop();
         const storagePath = `/events/${payload.performanceId}/eventImage.${fileExt}`;
         const metadata = { contentType: payload.imageFile.type };
+
         storageRef.child(storagePath).put(payload.imageFile, metadata)
           .then(snapshot => snapshot.ref.getDownloadURL())
           .then(url =>
@@ -128,16 +130,35 @@ export default {
     deletePerformance({ commit }, payload) {
       commit('setLoading', true);
       commit('setError', null);
-      performancesRef.doc(payload).delete()
-        // also delete image for event
-        .then(() => storageRef.child(`/events/${payload}/eventImage`).delete())
-        .then(() => {
-          commit('setLoading', false);
-          router.push({ name: 'managePerformances' });
-        })
-        .catch((error) => {
-          commit('setError', error);
-          commit('setLoading', false);
+      // determine if storage path is null
+      performancesRef.doc(payload).get()
+        // retrieve path of storage image
+        .then((doc) => {
+          const imagePath = doc.data().storagePath;
+          if (imagePath) {
+            storageRef.child(imagePath).delete()
+              // delete document
+              .then(() => performancesRef.doc(payload).delete())
+              .then(() => {
+                commit('setLoading', false);
+                router.push({ name: 'managePerformances' });
+              })
+              .catch((error) => {
+                commit('setError', error);
+                commit('setLoading', false);
+              });
+          } else {
+            // no image to delete, delete document onliy
+            performancesRef.doc(payload).delete()
+              .then(() => {
+                commit('setLoading', false);
+                router.push({ name: 'managePerformances' });
+              })
+              .catch((error) => {
+                commit('setError', error);
+                commit('setLoading', false);
+              });
+          }
         });
     },
   },
