@@ -1,5 +1,5 @@
-// import { adminsRef, storageRef } from '@/firebase/firebaseInit';
-// import router from '@/router/router';
+import { performancesRef, storageRef } from '@/firebase/firebaseInit';
+import router from '@/router/router';
 
 export default {
   namespaced: true,
@@ -9,8 +9,58 @@ export default {
     error: null,
   },
   mutations: {
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
+    setError(state, payload) {
+      state.error = payload;
+    },
   },
   actions: {
+    createPerformance({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      // declare outside of promise chain to access farther down the chain
+      let eventId = null;
+      if (payload.imageFile) {
+        // store file if it's available
+        // could do if block inside of promise chain, too
+        performancesRef.add(payload.newPerformance)
+          .then((docRef) => {
+            eventId = docRef.id;
+            const fileExt = payload.imageFile.name.split('.').pop();
+            const storagePath = `/events/${eventId}/eventImage.${fileExt}`;
+            const metadata = { contentType: payload.imageFile.type };
+
+            return storageRef.child(storagePath).put(payload.imageFile, metadata);
+          })
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then(url =>
+            performancesRef.doc(eventId).set({
+              downloadURL: url,
+            }, { merge: true }))
+          .then(() => {
+            // if successful route to manageAdmins, which will call loadAmins
+            commit('setLoading', false);
+            router.push({ name: 'managePerformances' });
+          })
+          .catch((error) => {
+            commit('setError', error);
+            commit('setLoading', false);
+          });
+      } else {
+        performancesRef.add({ ...payload.newPerformance, downloadURL: null })
+          .then(() => {
+            commit('setLoading', false);
+            router.push({ name: 'managePerformances' });
+          })
+          .catch((error) => {
+            commit('setError', error);
+            commit('setLoading', false);
+          });
+      }
+    },
   },
   getters: {
     loading(state) {

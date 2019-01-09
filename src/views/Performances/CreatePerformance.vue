@@ -4,7 +4,19 @@
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
           <h1 class="title has-text-centered has-text-weight-bold">Create New Performance</h1>
-          <form @submit.prevent="onCreatePerformance">
+          <div class="buttons is-centered">
+            <router-link
+            :to="{name: 'managePerformances'}"
+            tag="button"
+            class="button is-warning">Back</router-link>
+          </div>
+          <div v-if="loading" class="has-text-centered">
+            <span
+              class="icon is-large has-text-info has-text-centered">
+              <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+            </span>
+          </div>
+          <form v-if="!loading" @submit.prevent="onCreatePerformance">
             <div class="field">
               <label class="label">Event Title</label>
               <div class="control has-icons-left">
@@ -201,7 +213,7 @@
             </div>
             <button class="button is-info"
               :disabled="errors.any() || requiredPristine"
-              type="submit">Create New Admin</button>
+              type="submit">Create New Performance</button>
           </form>
         </div>
       </div>
@@ -280,6 +292,9 @@ export default {
       }
       return this.fields.eventTitle.pristine ||
         this.fields.venueName.pristine;
+    },
+    loading() {
+      return this.$store.getters['performanceModule/loading'];
     },
   },
   created() {
