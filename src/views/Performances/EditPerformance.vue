@@ -86,8 +86,8 @@
             <div class="field" v-if="performance.downloadURL || eventImageURL">
               <label class="label">Image Preview</label>
               <figure class="image">
-                <img v-if="eventImageURL" :src="eventImageURL">
-                <img v-else :src="performance.downloadURL">
+                <img v-if="eventImageURL" :src="eventImageURL" alt="Performance Image">
+                <img v-else :src="performance.downloadURL" alt="Performance Image">
               </figure>
             </div>
             <div class="field">
@@ -214,7 +214,7 @@
             </div>
             <div class="buttons is-centered">
               <button class="button is-info"
-              :disabled="errors.any() || requiredPristine"
+              :disabled="errors.any()"
               type="submit">Save Changes</button>
               <button
               @click.prevent="confirmDelete"
@@ -249,22 +249,23 @@ export default {
   },
   methods: {
     onEditPerformance() {
-      const newPerformance = {
-        eventTitle: this.eventTitle,
-        date: this.date,
-        address1: this.address1,
-        address2: this.address2,
-        venueName: this.venueName,
-        city: this.city,
-        state: this.selectedState,
-        postalCode: this.postalCode,
-        mapURL: this.mapURL,
-        note: this.note,
+      const editedPerformance = {
+        eventTitle: this.performance.eventTitle,
+        date: this.performance.date,
+        address1: this.performance.address1,
+        address2: this.performance.address2,
+        venueName: this.performance.venueName,
+        city: this.performance.city,
+        state: this.performance.state,
+        postalCode: this.performance.postalCode,
+        mapURL: this.performance.mapURL,
+        note: this.performance.note,
+        downloadURL: this.performance.downloadURL,
       };
-
+      const performanceId = this.id;
       const imageFile = this.eventImageFile;
 
-      this.$store.dispatch('performanceModule/createPerformance', { newPerformance, imageFile });
+      this.$store.dispatch('performanceModule/editPerformance', { editedPerformance, performanceId, imageFile });
     },
     onDeletePerformance() {
       console.log('Delete Performance');
@@ -283,16 +284,6 @@ export default {
     },
   },
   computed: {
-    requiredPristine() {
-      // check if any required field is pristine
-      // we won't require date to be touched since it has a valid default
-      if (!this.fields.eventTitle || !this.fields.venueName) {
-        // this.fields is not available until mounted, so default to true
-        return true;
-      }
-      return this.fields.eventTitle.pristine ||
-        this.fields.venueName.pristine;
-    },
     loading() {
       return this.$store.getters['performanceModule/loading'];
     },

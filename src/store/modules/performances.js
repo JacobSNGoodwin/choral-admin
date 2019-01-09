@@ -85,6 +85,45 @@ export default {
           commit('setLoading', false);
         });
     },
+    editPerformance({ commit }, payload) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      // declare outside of promise chain to access farther down the chain
+      if (payload.imageFile) {
+        // store file if it's available
+        // could do if block inside of promise chain, too
+        const fileExt = payload.imageFile.name.split('.').pop();
+        const storagePath = `/events/${payload.performanceId}/eventImage.${fileExt}`;
+        const metadata = { contentType: payload.imageFile.type };
+        storageRef.child(storagePath).put(payload.imageFile, metadata)
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then(url =>
+            performancesRef.doc(payload.performanceId).set({
+              ...payload.editedPerformance,
+              downloadURL: url,
+            }))
+          .then(() => {
+            // if successful route to manageAdmins, which will call loadAmins
+            commit('setLoading', false);
+            router.push({ name: 'managePerformances' });
+          })
+          .catch((error) => {
+            commit('setError', error.message);
+            commit('setLoading', false);
+          });
+      } else {
+        performancesRef.doc(payload.performanceId).set(payload.editedPerformance)
+          .then(() => {
+            commit('setLoading', false);
+            router.push({ name: 'managePerformances' });
+          })
+          .catch((error) => {
+            commit('setError', error.message);
+            commit('setLoading', false);
+          });
+      }
+    },
   },
   getters: {
     loading(state) {
