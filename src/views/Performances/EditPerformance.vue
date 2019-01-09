@@ -16,14 +16,14 @@
               <i class="fas fa-circle-notch fa-spin fa-3x"></i>
             </span>
           </div>
-          <form v-if="!loading" @submit.prevent="onCreatePerformance">
+          <form v-if="!loading" @submit.prevent="onEditPerformance">
             <div class="field">
               <label class="label">Event Title</label>
               <div class="control has-icons-left">
                 <input
                   :class="{'input': true, 'is-danger': errors.has('eventTitle') }"
                   name="eventTitle"
-                  v-model="eventTitle"
+                  v-model="performance.eventTitle"
                   data-vv-delay="500"
                   v-validate="'required'"
                   placeholder="Event Title"
@@ -42,7 +42,7 @@
               <label class="label">Date and Time</label>
               <div class="control has-icons-left">
                 <flat-pickr
-                  v-model="date"
+                  v-model="performance.date"
                   :config="flatpickrConfig"
                   :class="{'input': true, 'is-danger': errors.has('date') }"
                   class="input"
@@ -66,7 +66,7 @@
                 <input
                   class="file-input"
                   type="file"
-                  name="profileImageFile"
+                  name="eventImageFile"
                   accept="image/x-png,image/jpeg"
                   @change="processFile($event)">
                 <span class="file-cta">
@@ -74,7 +74,7 @@
                     <i class="fas fa-upload"></i>
                   </span>
                   <span class="file-label">
-                    Add Event Image
+                    Change Event Image
                   </span>
                 </span>
                 <span class="file-name">
@@ -83,10 +83,11 @@
               </label>
               </div>
             </div>
-            <div class="field" v-if="eventImageURL">
+            <div class="field" v-if="performance.downloadURL || eventImageURL">
               <label class="label">Image Preview</label>
               <figure class="image">
-                <img :src="eventImageURL">
+                <img v-if="eventImageURL" :src="eventImageURL">
+                <img v-else :src="performance.downloadURL">
               </figure>
             </div>
             <div class="field">
@@ -95,7 +96,7 @@
                 <input
                   :class="{'input': true, 'is-danger': errors.has('venueName') }"
                   name="venueName"
-                  v-model="venueName"
+                  v-model="performance.venueName"
                   data-vv-delay="500"
                   v-validate="'required'"
                   placeholder="Venue Name"
@@ -116,7 +117,7 @@
                 <input
                   class="input"
                   name="address1"
-                  v-model="address1"
+                  v-model="performance.address1"
                   data-vv-delay="500"
                   placeholder="Address Line 1">
                 <span class="icon is-small is-left">
@@ -130,7 +131,7 @@
                 <input
                   class="input"
                   name="address2"
-                  v-model="address2"
+                  v-model="performance.address2"
                   data-vv-delay="500"
                   placeholder="Address Line 2">
                 <span class="icon is-small is-left">
@@ -144,7 +145,7 @@
                 <input
                   class="input"
                   name="city"
-                  v-model="city"
+                  v-model="performance.city"
                   data-vv-delay="500"
                   placeholder="City or Town">
                 <span class="icon is-small is-left">
@@ -155,7 +156,7 @@
             <div class="field">
               <label class="label">State</label>
               <div class="select">
-                <select v-model="selectedState" vee-validate="'required'">
+                <select v-model="performance.state" vee-validate="'required'">
                   <option
                     v-for="state in statesList"
                     :key="state"
@@ -169,7 +170,7 @@
                 <input
                   class="input"
                   name="postalCode"
-                  v-model="postalCode"
+                  v-model="performance.postalCode"
                   data-vv-delay="500"
                   placeholder="Postal Code">
                 <span class="icon is-small is-left">
@@ -183,7 +184,7 @@
                 <input
                   class="input"
                   name="mapURL"
-                  v-model="mapURL"
+                  v-model="performance.mapURL"
                   v-validate="'url:require_protocol'"
                   data-vv-delay="500"
                   placeholder="Map URL">
@@ -203,7 +204,7 @@
                 <input
                   class="input"
                   name="note"
-                  v-model="note"
+                  v-model="performance.note"
                   data-vv-delay="500"
                   placeholder="Note">
                 <span class="icon is-small is-left">
@@ -211,9 +212,14 @@
                 </span>
               </div>
             </div>
-            <button class="button is-info"
+            <div class="buttons is-centered">
+              <button class="button is-info"
               :disabled="errors.any() || requiredPristine"
-              type="submit">Create New Performance</button>
+              type="submit">Save Changes</button>
+              <button
+              @click.prevent="confirmDelete"
+              class="button is-danger">Delete Admin</button>
+            </div>
           </form>
         </div>
       </div>
@@ -225,21 +231,12 @@
 import statesList from '@/mixins/statesList';
 
 export default {
+  props: ['id'],
   mixins: [statesList],
   data() {
     return {
       eventImageFile: '',
       eventImageURL: '',
-      eventTitle: null,
-      date: null,
-      address1: null,
-      address2: null,
-      venueName: null,
-      city: null,
-      postalCode: null,
-      mapURL: null,
-      selectedState: null, // default to Colorado just for demo purposes,
-      note: null,
       flatpickrConfig: {
         wrap: true,
         defaultDate: new Date().setHours(20, 0, 0),
@@ -251,7 +248,7 @@ export default {
     };
   },
   methods: {
-    onCreatePerformance() {
+    onEditPerformance() {
       const newPerformance = {
         eventTitle: this.eventTitle,
         date: this.date,
@@ -268,6 +265,9 @@ export default {
       const imageFile = this.eventImageFile;
 
       this.$store.dispatch('performanceModule/createPerformance', { newPerformance, imageFile });
+    },
+    onDeletePerformance() {
+      console.log('Delete Performance');
     },
     processFile(event) {
       const [file] = event.target.files;
@@ -296,12 +296,18 @@ export default {
     loading() {
       return this.$store.getters['performanceModule/loading'];
     },
+    performancesList() {
+      return this.$store.getters['performanceModule/performanceList'];
+    },
+    performance() {
+      return this.performancesList.find(a => a.id === this.id).data;
+    },
   },
-  created() {
-    // initialize date to an iso string
-    const toHours = new Date().setHours(20, 0, 0);
-    const initDate = new Date(toHours);
-    this.date = initDate.toISOString();
+  beforeCreate() {
+    // in case of hard reload - could check browser storage in better version
+    if (this.$store.getters['performanceModule/performanceList'].length === 0) {
+      this.$store.dispatch('performanceModule/loadPerformances');
+    }
   },
 };
 </script>

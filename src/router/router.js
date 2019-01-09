@@ -75,6 +75,7 @@ const router = new Router({
       path: '/performances/:id/edit',
       name: 'editPerformance',
       component: EditPerformance,
+      props: true,
     },
     {
       path: '/auditions',
