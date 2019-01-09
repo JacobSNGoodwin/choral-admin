@@ -40,9 +40,78 @@
               <div class="content">
                 <div
                   class="has-text-center is-size-5 has-text-link has-text-weight-bold
-                  content-item-title">Event Title
+                  content-item-title">Title
                 </div>
                 <div class="is-size-6 content-item">{{performance.data.eventTitle}}</div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Date
+                </div>
+                <div class="is-size-6 content-item">{{performance.data.dateUTC}}</div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Venue
+                </div>
+                <div class="is-size-6 content-item">{{performance.data.venueName}}</div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Address
+                </div>
+                <div
+                  class="content-item"
+                  v-if="performance.data.address1">
+                  {{performance.data.address1}}
+                </div>
+                <div
+                  class="content-item"
+                  v-if="performance.data.address2">
+                  {{performance.data.address2}}
+                </div>
+                <div
+                  class="content-item"
+                  v-if="performance.data.city">
+                  {{performance.data.city}}
+                </div>
+                <div class="content-item">
+                  <span v-if="performance.data.state">{{performance.data.state}}</span>
+                  <span v-if="performance.data.postalCode">, {{performance.data.postalCode}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Note
+                </div>
+                <div class="is-size-6 content-item">{{performance.data.note}}</div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div
+                  class="has-text-center is-size-5 has-text-link has-text-weight-bold
+                  content-item-title">Map Link
+                </div>
+                <div class="is-size-6 content-item">
+                  <a
+                    :href="performance.data.mapURL"
+                    target="_blank">
+                    {{performance.data.mapURL}}
+                  </a>
+                </div>
               </div>
             </div>
             <footer class="card-footer">
@@ -93,7 +162,7 @@ export default {
   }
 
   .content-item {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 </style>
