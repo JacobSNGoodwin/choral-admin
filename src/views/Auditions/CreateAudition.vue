@@ -4,6 +4,7 @@
       <div class="columns is-mobile is-centered">
         <div class="column is-three-fifths-tablet is-two-fifths-desktop">
           <h1 class="title has-text-centered has-text-weight-bold">Create New Audition</h1>
+          <AuditionForm></AuditionForm>
         </div>
       </div>
     </div>
@@ -11,7 +12,13 @@
 </template>
 
 <script>
+import AuditionForm from '@/components/AuditionForm.vue';
+
 export default {
+  name: 'CreateAudition',
+  components: {
+    AuditionForm,
+  },
 };
 </script>
 
