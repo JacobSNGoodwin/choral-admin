@@ -11,7 +11,7 @@ import EditAdmin from '@/views/Admins/EditAdmin.vue';
 import ManagePerformances from '@/views/Performances/ManagePerformances.vue';
 import CreatePerformance from '@/views/Performances/CreatePerformance.vue';
 import EditPerformance from '@/views/Performances/EditPerformance.vue';
-import ManageAuditions from '@/views/ManageAuditions.vue';
+import ManageAuditions from '@/views/Auditions/ManageAuditions.vue';
 
 
 import adminAuthGuard from './admin-auth-guard';
