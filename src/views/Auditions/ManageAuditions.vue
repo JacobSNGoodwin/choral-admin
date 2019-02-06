@@ -1,12 +1,21 @@
 <template>
   <section class="section">
     <div class="container">
-      <h1 class="title has-text-centered has-text-weight-bold">Auditions</h1>
+      <ManageHeader
+        title="Auditions"
+        buttonLabel="New Audition"
+        :route="{name: 'createAudition'}"
+      ></ManageHeader>
     </div>
   </section>
 </template>
 
 <script>
+import ManageHeader from '@/components/ManageHeader.vue';
+
 export default {
+  components: {
+    ManageHeader,
+  },
 };
 </script>
