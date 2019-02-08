@@ -14,6 +14,7 @@
 import ManageHeader from '@/components/ManageHeader.vue';
 
 export default {
+  name: 'ManageAuditions',
   components: {
     ManageHeader,
   },
