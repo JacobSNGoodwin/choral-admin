@@ -16,6 +16,7 @@ db.settings({
 
 const performancesRef = db.collection('performances');
 const adminsRef = db.collection('admins');
+const auditionsRef = db.collection('auditions');
 const authRef = firebase.auth();
 const storageRef = firebase.storage().ref();
 
@@ -25,4 +26,5 @@ export {
   adminsRef,
   authRef,
   storageRef,
+  auditionsRef,
 };
