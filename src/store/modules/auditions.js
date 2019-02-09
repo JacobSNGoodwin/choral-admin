@@ -55,6 +55,21 @@ export default {
           commit('setLoading', false);
         });
     },
+    loadAudition({ commit }, auditionId) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      auditionsRef.doc(auditionId).get()
+        .then((doc) => {
+          if (doc.exists) {
+            console.log(doc.data());
+          }
+        })
+        .catch((error) => {
+          commit('setLoading', false);
+          commit('setError', error.message);
+        });
+    },
   },
   getters: {
     loading(state) {

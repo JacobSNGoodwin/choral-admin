@@ -10,7 +10,9 @@
             tag="button"
             class="button is-warning">Back</router-link>
           </div>
-          <AuditionForm @submit="onUpdateAudition"></AuditionForm>
+          <AuditionForm
+          :formData="this.$route.params.audition"
+          @submit="onUpdateAudition"></AuditionForm>
         </div>
       </div>
     </div>
@@ -26,7 +28,10 @@ export default {
   },
   created() {
     if (!this.$route.params.audition) {
-      console.log('Need to reload the page');
+      // in case of hard reload, get single audition from firebase
+      this.$store.dispatch('auditionsModule/loadAudition', this.$route.params.id);
+    } else {
+      // set to params data
     }
   },
 };
