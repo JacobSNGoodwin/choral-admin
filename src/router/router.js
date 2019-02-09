@@ -13,6 +13,7 @@ import CreatePerformance from '@/views/Performances/CreatePerformance.vue';
 import EditPerformance from '@/views/Performances/EditPerformance.vue';
 import ManageAuditions from '@/views/Auditions/ManageAuditions.vue';
 import CreateAudition from '@/views/Auditions/CreateAudition.vue';
+import EditAudition from '@/views/Auditions/EditAudition.vue';
 
 import adminAuthGuard from './admin-auth-guard';
 
@@ -88,6 +89,12 @@ const router = new Router({
       path: '/auditions/create',
       name: 'createAudition',
       component: CreateAudition,
+    },
+    {
+      path: '/auditions/:id/edit',
+      name: 'editAudition',
+      component: EditAudition,
+      props: true,
     },
 
   ],
