@@ -74,7 +74,7 @@ export default {
       default() {
         return {
           auditionTitle: '',
-          date: '',
+          date: new Date(new Date().setHours(20, 0, 0)).toISOString(),
           auditionInfo: '',
         };
       },
@@ -89,7 +89,7 @@ export default {
         enableTime: true,
         altInput: true,
         altFormat: 'l, Y-F-d \\a\\t h:i K', // for display
-        dateFormat: 'Z', // UTC for storing data
+        dateFormat: 'Z', // ISO for storing data
       },
     };
   },

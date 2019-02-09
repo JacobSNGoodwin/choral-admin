@@ -10,7 +10,7 @@
             tag="button"
             class="button is-warning">Back</router-link>
           </div>
-          <AuditionForm @submit="submitAuditionForm"></AuditionForm>
+          <AuditionForm @submit="onCreateAudition"></AuditionForm>
         </div>
       </div>
     </div>
@@ -26,8 +26,11 @@ export default {
     AuditionForm,
   },
   methods: {
-    submitAuditionForm(auditionData) {
-      console.log(auditionData);
+    onCreateAudition(auditionData) {
+      this.$store.dispatch('auditionsModule/createAudition', auditionData)
+        .then(() => {
+          this.$router.push({ name: 'manageAuditions' });
+        });
     },
   },
 };
