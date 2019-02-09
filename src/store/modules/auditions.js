@@ -3,11 +3,14 @@ import { auditionsRef } from '@/firebase/firebaseInit';
 export default {
   namespaced: true,
   state: {
-    auditionsList: [],
+    auditionList: [],
     loading: false,
     error: null,
   },
   mutations: {
+    setAuditionList(state, payload) {
+      state.auditionList = payload;
+    },
     setLoading(state, payload) {
       state.loading = payload;
     },
@@ -23,7 +26,6 @@ export default {
 
       auditionsRef.add(auditionData)
         .then((docRef) => {
-          console.log('Add doc with docId: ', docRef.id);
           commit('setLoading', false);
           return docRef.id;
         })
@@ -32,7 +34,37 @@ export default {
           commit('setLoading', false);
         });
     },
+    loadAuditions({ commit }) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      auditionsRef.orderBy('date').get()
+        .then((querySnapshot) => {
+          const auditionList = [];
+          querySnapshot.forEach((doc) => {
+            const audition = { id: doc.id, data: doc.data() };
+            const dateUTC = new Date(audition.data.date).toString();
+            audition.data.dateUTC = dateUTC;
+            auditionList.push(audition);
+          });
+          commit('setAuditionList', auditionList);
+          commit('setLoading', false);
+        })
+        .catch((error) => {
+          commit('setError', error.message);
+          commit('setLoading', false);
+        });
+    },
   },
   getters: {
+    loading(state) {
+      return state.loading;
+    },
+    auditionList(state) {
+      return state.auditionList;
+    },
+    error(state) {
+      return state.error;
+    },
   },
 };
