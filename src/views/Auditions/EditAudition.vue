@@ -18,7 +18,7 @@
           </div>
           <AuditionForm
           v-if="selectedAudition && !loading"
-          :formData="this.selectedAudition"
+          :formData="this.selectedAudition.data"
           @submitAudition="onUpdateAudition"></AuditionForm>
         </div>
       </div>

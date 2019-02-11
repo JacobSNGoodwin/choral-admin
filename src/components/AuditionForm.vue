@@ -6,7 +6,7 @@
         <input
           :class="{'input': true, 'is-danger': errors.has('auditionTitle') }"
           name="auditionTitle"
-          v-model="editedFormData.data.auditionTitle"
+          v-model="editedFormData.auditionTitle"
           data-vv-delay="500"
           v-validate="'required'"
           placeholder="Audition Title"
@@ -25,7 +25,7 @@
       <label class="label">Audition Date and Time</label>
       <div class="control has-icons-left">
         <flat-pickr
-          v-model="editedFormData.data.date"
+          v-model="editedFormData.date"
           :config="flatpickrConfig"
           :class="{'input': true, 'is-danger': errors.has('date') }"
           class="input"
@@ -44,7 +44,7 @@
         <textarea
           :class="{'textarea': true, 'is-danger': errors.has('auditionInfo') }"
           name="auditionInfo"
-          v-model="editedFormData.data.auditionInfo"
+          v-model="editedFormData.auditionInfo"
           placeholder="Audition Information"
           data-vv-delay="500"
           v-validate="'required'"
