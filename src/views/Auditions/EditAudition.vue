@@ -17,6 +17,7 @@
             </span>
           </div>
           <AuditionForm
+          :isEdit="true"
           v-if="selectedAudition && !loading"
           :formData="this.selectedAudition.data"
           @submitAudition="onUpdateAudition"></AuditionForm>

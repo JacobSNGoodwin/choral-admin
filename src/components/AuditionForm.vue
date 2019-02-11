@@ -57,10 +57,17 @@
       </div>
     </div>
     <button
+      v-if="isEdit"
       class="button is-info"
       :disabled="errors.any() || !requiredValid"
       type="submit"
-    >Create New Audition</button>
+    >Edit Audition</button>
+    <button
+      v-else
+      class="button is-info"
+      :disabled="errors.any() || !requiredValid"
+      type="submit"
+    >Create Audition</button>
   </form>
 </template>
 
@@ -78,6 +85,11 @@ export default {
           auditionInfo: '',
         };
       },
+    },
+    isEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
