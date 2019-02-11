@@ -30,7 +30,7 @@
       </div>
       <footer class="card-footer">
         <router-link
-          :to="{name: 'editAudition', params: {id: audition.id, audition: audition.data}}"
+          :to="{name: 'editAudition', params: {id: audition.id}}"
           class="card-footer-item">Edit
         </router-link>
       </footer>
@@ -40,6 +40,7 @@
 
 <script>
 export default {
+  name: 'AuditionListitem',
   props: ['audition'],
 };
 </script>

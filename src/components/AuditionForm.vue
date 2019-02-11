@@ -1,12 +1,12 @@
 <template>
-  <form @submit.prevent="onSaveAudition">
+  <form>
     <div class="field">
       <label class="label">Audition Title</label>
       <div class="control has-icons-left">
         <input
           :class="{'input': true, 'is-danger': errors.has('auditionTitle') }"
           name="auditionTitle"
-          v-model="editedFormData.auditionTitle"
+          v-model="editedFormData.data.auditionTitle"
           data-vv-delay="500"
           v-validate="'required'"
           placeholder="Audition Title"
@@ -25,7 +25,7 @@
       <label class="label">Audition Date and Time</label>
       <div class="control has-icons-left">
         <flat-pickr
-          v-model="editedFormData.date"
+          v-model="editedFormData.data.date"
           :config="flatpickrConfig"
           :class="{'input': true, 'is-danger': errors.has('date') }"
           class="input"
@@ -44,7 +44,7 @@
         <textarea
           :class="{'textarea': true, 'is-danger': errors.has('auditionInfo') }"
           name="auditionInfo"
-          v-model="editedFormData.auditionInfo"
+          v-model="editedFormData.data.auditionInfo"
           placeholder="Audition Information"
           data-vv-delay="500"
           v-validate="'required'"
@@ -59,7 +59,6 @@
     <button
       class="button is-info"
       :disabled="errors.any() || requiredPristine"
-      type="submit"
     >Create New Audition</button>
   </form>
 </template>
@@ -95,7 +94,7 @@ export default {
   },
   methods: {
     onSaveAudition() {
-      this.$emit('submit', this.editedFormData);
+      this.$emit('submitAudition', this.editedFormData);
     },
   },
   computed: {

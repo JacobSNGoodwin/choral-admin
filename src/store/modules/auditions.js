@@ -4,12 +4,16 @@ export default {
   namespaced: true,
   state: {
     auditionList: [],
+    selectedAudition: null,
     loading: false,
     error: null,
   },
   mutations: {
     setAuditionList(state, payload) {
       state.auditionList = payload;
+    },
+    setSelectedAudition(state, payload) {
+      state.selectedAudition = payload;
     },
     setLoading(state, payload) {
       state.loading = payload;
@@ -55,14 +59,26 @@ export default {
           commit('setLoading', false);
         });
     },
-    loadAudition({ commit }, auditionId) {
+    loadAudition({ commit, state }, auditionId) {
       commit('setLoading', true);
       commit('setError', null);
+
+      // check if we have doc in local store
+      const currentAudition = state.auditionList.find(audition => audition.id === auditionId);
+
+      if (currentAudition) {
+        commit('setSelectedAudition', currentAudition);
+        commit('setLoading', false);
+      }
 
       auditionsRef.doc(auditionId).get()
         .then((doc) => {
           if (doc.exists) {
-            console.log(doc.data());
+            commit('setSelectedAudition', { id: doc.id, data: doc.data() });
+            commit('setLoading', false);
+          } else {
+            commit('setLoading', false);
+            commit('setError', 'Audition not found');
           }
         })
         .catch((error) => {
@@ -77,6 +93,9 @@ export default {
     },
     auditionList(state) {
       return state.auditionList;
+    },
+    selectedAudition(state) {
+      return state.selectedAudition;
     },
     error(state) {
       return state.error;

@@ -10,9 +10,16 @@
             tag="button"
             class="button is-warning">Back</router-link>
           </div>
+          <div v-if="loading" class="has-text-centered">
+            <span
+              class="icon is-large has-text-info has-text-centered">
+              <i class="fas fa-circle-notch fa-spin fa-3x"></i>
+            </span>
+          </div>
           <AuditionForm
-          :formData="this.$route.params.audition"
-          @submit="onUpdateAudition"></AuditionForm>
+          v-if="selectedAudition && !loading"
+          :formData="this.selectedAudition"
+          @submitAudition="onUpdateAudition"></AuditionForm>
         </div>
       </div>
     </div>
@@ -23,16 +30,26 @@
 import AuditionForm from '@/components/AuditionForm.vue';
 
 export default {
+  name: 'EditAudition',
+  params: ['id'],
   components: {
     AuditionForm,
   },
+  methods: {
+    onUpdateAudition() {
+      console.log('In onUpdateAudition');
+    },
+  },
+  computed: {
+    selectedAudition() {
+      return this.$store.getters['auditionsModule/selectedAudition'];
+    },
+    loading() {
+      return this.$store.getters['auditionsModule/loading'];
+    },
+  },
   created() {
-    if (!this.$route.params.audition) {
-      // in case of hard reload, get single audition from firebase
-      this.$store.dispatch('auditionsModule/loadAudition', this.$route.params.id);
-    } else {
-      // set to params data
-    }
+    this.$store.dispatch('auditionsModule/loadAudition', this.$route.params.id);
   },
 };
 </script>
