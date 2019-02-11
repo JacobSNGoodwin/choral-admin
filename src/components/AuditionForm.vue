@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="onSaveAudition">
     <div class="field">
       <label class="label">Audition Title</label>
       <div class="control has-icons-left">
@@ -58,7 +58,8 @@
     </div>
     <button
       class="button is-info"
-      :disabled="errors.any() || requiredPristine"
+      :disabled="errors.any() || !requiredValid"
+      type="submit"
     >Create New Audition</button>
   </form>
 </template>
@@ -98,15 +99,12 @@ export default {
     },
   },
   computed: {
-    requiredPristine() {
-      // check if any required field is pristine
-      // we won't require date to be touched since it has a valid default
+    requiredValid() {
       if (!this.fields.auditionTitle || !this.fields.auditionInfo) {
-        // this.fields is not available until mounted, so default to true
-        return true;
+        return false;
       }
-      return this.fields.auditionTitle.pristine ||
-        this.fields.auditionInfo.pristine;
+
+      return (this.fields.auditionTitle.valid && this.fields.auditionInfo.valid);
     },
   },
 };

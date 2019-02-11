@@ -36,8 +36,8 @@ export default {
     AuditionForm,
   },
   methods: {
-    onUpdateAudition() {
-      console.log('In onUpdateAudition');
+    onUpdateAudition(formData) {
+      console.log(formData);
     },
   },
   computed: {
