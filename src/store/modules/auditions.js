@@ -27,11 +27,23 @@ export default {
       commit('setLoading', true);
       commit('setError', null);
 
-
       auditionsRef.add(auditionData)
         .then((docRef) => {
           commit('setLoading', false);
           return docRef.id;
+        })
+        .catch((error) => {
+          commit('setError', error.message);
+          commit('setLoading', false);
+        });
+    },
+    editAudition({ commit }, audition) {
+      commit('setLoading', true);
+      commit('setError', null);
+
+      return auditionsRef.doc(audition.id).update(audition.data)
+        .then(() => {
+          commit('setLoading', false);
         })
         .catch((error) => {
           commit('setError', error.message);
@@ -47,8 +59,6 @@ export default {
           const auditionList = [];
           querySnapshot.forEach((doc) => {
             const audition = { id: doc.id, data: doc.data() };
-            const dateUTC = new Date(audition.data.date).toString();
-            audition.data.dateUTC = dateUTC;
             auditionList.push(audition);
           });
           commit('setAuditionList', auditionList);

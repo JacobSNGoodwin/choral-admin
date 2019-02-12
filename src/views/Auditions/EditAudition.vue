@@ -17,7 +17,7 @@
             </span>
           </div>
           <AuditionForm
-          :isEdit="true"
+          isEdit
           v-if="selectedAudition && !loading"
           :formData="this.selectedAudition.data"
           @submitAudition="onUpdateAudition"></AuditionForm>
@@ -38,7 +38,13 @@ export default {
   },
   methods: {
     onUpdateAudition(formData) {
-      console.log(formData);
+      this.$store.dispatch(
+        'auditionsModule/editAudition',
+        { id: this.$route.params.id, data: formData },
+      )
+        .then(() => {
+          this.$router.push({ name: 'manageAuditions' });
+        });
     },
   },
   computed: {
