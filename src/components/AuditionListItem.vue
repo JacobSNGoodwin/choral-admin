@@ -16,7 +16,7 @@
             class="has-text-center is-size-5 has-text-link has-text-weight-bold
             content-item-title">Date
           </div>
-          <div class="is-size-6 content-item">{{audition.data.dateUTC}}</div>
+          <div class="is-size-6 content-item">{{audition.data.date | dateUTC}}</div>
         </div>
       </div>
       <div class="card-content">
@@ -42,6 +42,11 @@
 export default {
   name: 'AuditionListitem',
   props: ['audition'],
+  filters: {
+    dateUTC(dateISO) {
+      return new Date(dateISO).toString();
+    },
+  },
 };
 </script>
 
